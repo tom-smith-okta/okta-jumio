@@ -1,0 +1,15 @@
+{
+  "name": "okta-nginx",
+  "version": "1.0.0",
+  "description": "This node.js app allows you to add Okta as the identity provider for your Box Platform installation.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tom.smith@okta.com",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3"
+  }
+}

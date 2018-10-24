@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="https://www.okta.com/sites/all/themes/developer/favicon.ico" type="image/vnd.microsoft.icon" />
+
+    <title>Okta and NGINX</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <header>
+      <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4">
+              <h4 class="text-white">Instructions</h4>
+              <ul class="text-white">
+                <li>Click the "downstream app, unproxied" button to see the open application that we are going to secure and proxy with Okta and NGINX.</li>
+                <li>
+              <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <h4 class="text-white">Resources</h4>
+              <ul class="list-unstyled">
+                <li class="text-white">NGINX+</li>
+
+                <li class="text-white">NGINX OSS</li>
+
+                <ul>
+                <li><a href="#" class="text-white">Github repo: Okta + NGINX OSS</a></li>
+                <li><a href="#" class="text-white">Docker container: Okta + NGINX OSS</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+             <span class="oi oi-link-intact"></span>
+             <strong>Okta and NGINX</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+      <section class="jumbotron text-center">
+        <div class="container">
+            <div class="row">
+              <div class="col-md" style="text-align: left">
+                <p class="lead text-muted">Integrate Okta identity management with NGINX application access and NGINX API gateway for the ultimate in security and ease-of-use, for admins, developers, and end-users.</p>
+
+                <p class="lead text-muted">To walk through the demo, follow the steps below. To see the resources available, click on the resources icon in the upper right.</p>
+
+                <p class="lead text-muted">
+                  <button type="button" class="btn btn-info">1</button>
+                  Visit the downstream app, unproxied: <a href="http://okta-headers.herokuapp.com/" class="btn btn-primary my-2" target="_blank">downstream app</a>
+                </p>
+
+                <p class="lead text-muted">The downstream app will show some headers. Not very exciting.</p>
+
+                <p class="lead text-muted">
+                  <button type="button" class="btn btn-info">2</button>
+                  Remember the following credentials: <b>lois.lane / Okta1234$</b>
+                </p>
+
+                <p class="lead text-muted">Maybe copy the password.</p>
+
+                <p class="lead text-muted">
+                  <button type="button" class="btn btn-info">3a</button>
+                  Visit the NGINX+ proxy: <a href="http://ec2-18-220-245-15.us-east-2.compute.amazonaws.com:8010" class="btn btn-primary my-2" target="_blank">NGINX+</a>
+                </p>
+
+                <p class="lead text-muted">Or</p>
+
+                <p class="lead text-muted">
+                  <button type="button" class="btn btn-info">3b</button>
+                  Visit the NGINX oss proxy: <a href="http://ec2-18-191-116-238.us-east-2.compute.amazonaws.com:8126" class="btn btn-primary my-2" target="_blank">NGINX oss</a>
+                </p>
+
+                <p class="lead text-muted">
+                  <button type="button" class="btn btn-info">4</button>
+                  The NGINX server redirected you to authenticate against Okta. You authenticated as Lois Lane, and saw the new headers that NGINX passed to the downstream app. NGINX parsed these values from the Okta id token. Sweet.
+                </p>
+
+                <p class="lead text-muted">
+                  <button type="button" class="btn btn-info">5</button>
+                  Check out the resources and build your own PoC!
+                </p>
+
+              </div>
+
+              <div class="col-md">
+                One of two columns
+              </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+      </section>
+    </main>
+
+<!--
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+        <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+      </div>
+    </footer> -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="http://getbootstrap.com/docs/4.1/assets/js/vendor/holder.min.js"></script>
+  </body>
+</html>
