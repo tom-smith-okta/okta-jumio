@@ -19,7 +19,7 @@ const express = require('express');
 // SET UP WEB SERVER
 const app = express();
 
-var port = process.env.PORT || 5472;
+var port = process.env.PORT || 5459;
 
 app.use(express.static('public'))
 // app.use(bodyParser.json())
@@ -58,7 +58,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/callback', function (req, res) {
-	
+
 })
 
 app.get('/checkAsset', function (req, res) {

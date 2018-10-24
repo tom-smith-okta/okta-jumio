@@ -1,7 +1,7 @@
 {
-  "name": "okta-nginx",
+  "name": "okta-jumio",
   "version": "1.0.0",
-  "description": "This node.js app allows you to add Okta as the identity provider for your Box Platform installation.",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
