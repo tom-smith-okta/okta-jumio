@@ -97,7 +97,6 @@ app.get('/callback', function (req, res) {
 	  console.log("the first name is: " + body.document.firstName)
 	  console.log("the last name is: " + body.document.lastName)
 
-
 	  fs.readFile('./html/register.html', (err, data) => {
 		if (err) {
 			console.log("error reading the register.html file")
@@ -118,7 +117,39 @@ app.get('/callback', function (req, res) {
   } else {
     res.end("Sorry, something went wrong with that transaction\n");
   }
+})
 
+app.post('/reg', function (req, res) {
+
+	console.log(req.body.email)
+
+	var request = require("request");
+
+	var options = {
+		method: 'POST',
+	  url: 'https://okta-jumio.oktapreview.com/api/v1/users',
+	  qs: { activate: 'false' },
+	  headers: {
+	     'Cache-Control': 'no-cache',
+	     Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+	     'Content-Type': 'application/json',
+	     Accept: 'application/json'
+	  },
+	  body: {
+	  	profile: {
+	  		firstName: req.body.fname,
+	        lastName: req.body.lname,
+	        email: req.body.email,
+	        login: req.body.email
+	    },
+	    credentials: { password: { value: 'Okta1234!' } } },
+	  json: true };
+
+	request(options, function (error, response, body) {
+	  if (error) throw new Error(error);
+
+	  console.log(body);
+	});
 
 })
 
