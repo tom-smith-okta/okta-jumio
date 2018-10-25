@@ -123,7 +123,7 @@ app.post('/reg', function (req, res) {
 
 	console.log("the /reg email is: " + req.body.email)
 
-	console.dir(req)
+	// console.dir(req)
 
 	// body = JSON.parse()
 
