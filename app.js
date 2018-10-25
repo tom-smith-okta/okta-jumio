@@ -16,7 +16,6 @@ var request = require('request');
 
 var url = require('url');
 
-
 // var jsonParser = bodyParser.json()
 
 ///////////////////////////////////////////////////
@@ -76,6 +75,8 @@ app.get('/callback', function (req, res) {
 
   	console.log("the transaction id is: " + queryData.transactionReference)
 
+  	req.session.transactionReference = queryData.transactionReference
+
 	var options = {
 	  method: 'GET',
 	  url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + "/data",
@@ -83,7 +84,7 @@ app.get('/callback', function (req, res) {
 	    'Cache-Control': 'no-cache',
 	    Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
 	    Accept: 'application/json',
-	    'User-Agent': 'Jumiotest jumiotest/1.0.0'
+	    'User-Agent': 'okta jumiotest/1.0.0'
 	  }
 	};
 
@@ -140,7 +141,8 @@ app.post('/reg', function (req, res) {
 	  		firstName: req.body.fname,
 	        lastName: req.body.lname,
 	        email: req.body.email,
-	        login: req.body.email
+	        login: req.body.email,
+	        jumio_transaction_id: 
 	    },
 	    credentials: { password: { value: 'Okta1234!' } } },
 	  json: true };
