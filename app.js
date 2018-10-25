@@ -1,16 +1,21 @@
-// Okta + Box Platform integration
+// Okta + Jumio integration
 
 ////////////////////////////////////////////////////
 
 require('dotenv').config()
 
-//var bodyParser = require('body-parser');
+const bodyParser = require("body-parser")
 
-const express = require('express');
+const express = require('express')
+
+var session = require('express-session')
 
 // var fs = require('fs');
 
-// var request = require('request');
+var request = require('request');
+
+var url = require('url');
+
 
 // var jsonParser = bodyParser.json()
 
@@ -23,12 +28,13 @@ var port = process.env.PORT || 5459;
 
 app.use(express.static('public'))
 // app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 
 app.listen(port, function () {
 	console.log('App listening on port ' + port + '...');
 })
-
 
 // create application/x-www-form-urlencoded parser
 // var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -59,6 +65,59 @@ app.get('/', function (req, res) {
 
 app.get('/callback', function (req, res) {
 
+  var queryData = url.parse(req.url, true).query
+  response.writeHead(200, {"Content-Type": "text/plain"});
+
+// transactionReference=318cef4a-0a8c-45eb-bf54-330425fa9024
+
+  if (queryData.transactionReference) {
+    // user told us their name in the GET request, ex: http://host:8000/?name=Tom
+    response.end('Hello ' + queryData.transactionReference + '\n');
+
+  } else {
+    response.end("Hello World\n");
+  }
+
+
+})
+
+app.post('/register', function (req, res) {
+
+	req.session.email = req.body.email
+
+	console.log(req.body.email)
+
+	var options = { method: 'POST',
+	  url: 'https://netverify.com/api/v4/initiate',
+	  headers: 
+	   { 'Postman-Token': '48463976-124c-4450-9337-73c5eb96df59',
+	     'Cache-Control': 'no-cache',
+	     Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+	     'User-Agent': 'Okta',
+	     'Content-Type': 'application/json',
+	     Accept: 'application/json' },
+	  body: 
+	   { customerInternalReference: 'okta_transaction_12345',
+	     userReference: 'user_1234',
+	     successUrl: 'https://okta-jumio.herokuapp.com/callback',
+	     errorUrl: 'https://okta-jumio.herokuapp.com/',
+	     callbackUrl: 'https://okta-jumio.herokuapp.com/callback',
+	     reportingCriteria: 'myReport1234',
+	     workflowId: 200,
+	     presets: [ { index: 1, country: 'USA', type: 'DRIVING_LICENSE' } ],
+	     locale: 'en' },
+	  json: true };
+
+	request(options, function (error, response, body) {
+	  if (error) throw new Error(error);
+
+	  console.log(body);
+
+	  console.log("the redirect url is: " + body.redirectUrl)
+
+	  res.redirect(body.redirectUrl);
+
+	});
 })
 
 app.get('/checkAsset', function (req, res) {
