@@ -78,7 +78,7 @@ app.get('/callback', function (req, res) {
 
 	var options = {
 	  method: 'GET',
-	  url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference,
+	  url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + "/data",
 	  headers: {
 	    'Cache-Control': 'no-cache',
 	    Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
