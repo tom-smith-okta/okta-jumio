@@ -10,7 +10,7 @@ const express = require('express')
 
 var session = require('express-session')
 
-// var fs = require('fs');
+var fs = require('fs');
 
 var request = require('request');
 
@@ -91,11 +91,23 @@ app.get('/callback', function (req, res) {
 	  if (error) throw new Error(error);
 
 	  console.log(body);
+
+	  fs.readFile('html/register.html', (err, data) => {
+		if (err) {
+			console.log("error reading the index.html file")
+		}
+
+		var page = data.toString()
+
+		page = page.replace(/{{fname}}/g, body.firstName)
+		page = page.replace(/{{lname}}/g, body.lastName)
+
+		res.send(page)
+		})
 	});
 
-
     // user told us their name in the GET request, ex: http://host:8000/?name=Tom
-    res.end('Hello ' + queryData.transactionReference + '\n');
+    // res.end('Hello ' + queryData.transactionReference + '\n');
 
   } else {
     res.end("Sorry, something went wrong with that transaction\n");
