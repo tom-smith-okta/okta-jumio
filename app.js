@@ -142,7 +142,7 @@ app.post('/reg', function (req, res) {
 	        lastName: req.body.lname,
 	        email: req.body.email,
 	        login: req.body.email,
-	        jumio_transaction_id: 
+	        jumio_transaction_id: req.session.transactionReference
 	    },
 	    credentials: { password: { value: 'Okta1234!' } } },
 	  json: true };
