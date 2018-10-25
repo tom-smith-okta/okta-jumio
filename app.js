@@ -66,7 +66,7 @@ app.get('/', function (req, res) {
 app.get('/callback', function (req, res) {
 
   var queryData = url.parse(req.url, true).query
-  res.writeHead(200, {"Content-Type": "text/plain"});
+  //res.writeHead(200, {"Content-Type": "text/plain"});
 
 // transactionReference=318cef4a-0a8c-45eb-bf54-330425fa9024
 
