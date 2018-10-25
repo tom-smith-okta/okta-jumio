@@ -121,7 +121,7 @@ app.get('/callback', function (req, res) {
 
 app.post('/reg', function (req, res) {
 
-	res.session.email = req.body.email
+	req.session.email = req.body.email
 
 	console.log("the /reg email is: " + req.body.email)
 
