@@ -99,8 +99,8 @@ app.get('/callback', function (req, res) {
 
 		var page = data.toString()
 
-		page = page.replace(/{{fname}}/g, body.firstName)
-		page = page.replace(/{{lname}}/g, body.lastName)
+		page = page.replace(/{{fname}}/g, body.document.firstName)
+		page = page.replace(/{{lname}}/g, body.document.lastName)
 
 		res.send(page)
 		})
