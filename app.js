@@ -92,9 +92,9 @@ app.get('/callback', function (req, res) {
 
 	  console.log(body);
 
-	  fs.readFile('html/register.html', (err, data) => {
+	  fs.readFile('./html/register.html', (err, data) => {
 		if (err) {
-			console.log("error reading the index.html file")
+			console.log("error reading the register.html file")
 		}
 
 		var page = data.toString()
