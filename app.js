@@ -185,7 +185,7 @@ app.get('/thank_you', function (req, res) {
 
 		var page = data.toString()
 
-		page = page.replace(/{{email}}/g, res.session.email)
+		page = page.replace(/{{email}}/g, req.session.email)
 
 		res.send(page)
 	})
