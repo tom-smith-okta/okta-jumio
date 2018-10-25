@@ -92,6 +92,12 @@ app.get('/callback', function (req, res) {
 
 	  console.log(body);
 
+	  body = JSON.parse(body)
+
+	  console.log("the first name is: " + body.document.firstName)
+	  console.log("the last name is: " + body.document.lastName)
+
+
 	  fs.readFile('./html/register.html', (err, data) => {
 		if (err) {
 			console.log("error reading the register.html file")
