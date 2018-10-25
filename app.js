@@ -121,9 +121,7 @@ app.get('/callback', function (req, res) {
 
 app.post('/reg', function (req, res) {
 
-	console.log(req.body.email)
-
-	var request = require("request");
+	console.log("the /reg email is: " + req.body.email)
 
 	var options = {
 		method: 'POST',
