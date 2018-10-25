@@ -70,12 +70,35 @@ app.get('/callback', function (req, res) {
 
 // transactionReference=318cef4a-0a8c-45eb-bf54-330425fa9024
 
-  if (queryData.transactionReference) {
+  if (queryData.transactionStatus == "SUCCESS") {
+
+  	console.log("the netverify transaction was a success.")
+
+  	console.log("the transaction id is: " + queryData.transactionReference)
+
+	var options = {
+	  method: 'GET',
+	  url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference,
+	  headers: {
+	    'Cache-Control': 'no-cache',
+	    Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+	    Accept: 'application/json',
+	    'User-Agent': 'Jumiotest jumiotest/1.0.0'
+	  }
+	};
+
+	request(options, function (error, response, body) {
+	  if (error) throw new Error(error);
+
+	  console.log(body);
+	});
+
+
     // user told us their name in the GET request, ex: http://host:8000/?name=Tom
     res.end('Hello ' + queryData.transactionReference + '\n');
 
   } else {
-    res.end("Hello World\n");
+    res.end("Sorry, something went wrong with that transaction\n");
   }
 
 
