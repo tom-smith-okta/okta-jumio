@@ -193,23 +193,20 @@ app.get('/thank_you', function (req, res) {
 	})
 })
 
-app.post('/register', function (req, res) {
+app.post('/go', function (req, res) {
 
-	req.session.email = req.body.email
-
-	console.log(req.body.email)
-
-	var options = { method: 'POST',
-	  url: 'https://netverify.com/api/v4/initiate',
-	  headers: 
-	   { 'Postman-Token': '48463976-124c-4450-9337-73c5eb96df59',
+	var options = {
+		method: 'POST',
+		url: 'https://netverify.com/api/v4/initiate',
+	  headers: {
 	     'Cache-Control': 'no-cache',
 	     Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
 	     'User-Agent': 'Okta',
 	     'Content-Type': 'application/json',
-	     Accept: 'application/json' },
-	  body: 
-	   { customerInternalReference: 'okta_transaction_12345',
+	     Accept: 'application/json'
+	  },
+	  body: {
+	  	customerInternalReference: 'okta_transaction_12345',
 	     userReference: 'user_1234',
 	     successUrl: 'https://okta-jumio.herokuapp.com/callback',
 	     errorUrl: 'https://okta-jumio.herokuapp.com/',
