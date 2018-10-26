@@ -151,7 +151,8 @@ app.post('/register', function (req, res) {
 	  if (error) throw new Error(error);
 
 	  if (body.errorCode) {
-	  	res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0])
+	  	res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0].errorSummary)
+	  	return
 	  }
 
 	  console.log(body)
