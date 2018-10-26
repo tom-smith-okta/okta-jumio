@@ -129,7 +129,7 @@ app.post('/reg', function (req, res) {
 	var options = {
 		method: 'POST',
 	  url: 'https://okta-jumio.oktapreview.com/api/v1/users',
-	  qs: { activate: 'false' },
+	  qs: { activate: 'true' },
 	  headers: {
 	     'Cache-Control': 'no-cache',
 	     Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
