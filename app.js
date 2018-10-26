@@ -120,7 +120,7 @@ app.get('/callback', function (req, res) {
   }
 })
 
-app.post('/reg', function (req, res) {
+app.post('/register', function (req, res) {
 
 	req.session.email = req.body.email
 
@@ -149,6 +149,10 @@ app.post('/reg', function (req, res) {
 
 	request(options, function (error, response, body) {
 	  if (error) throw new Error(error);
+
+	  if (body.errorCode) {
+	  	res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0])
+	  }
 
 	  console.log(body)
 
