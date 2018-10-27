@@ -77,22 +77,67 @@ app.get('/userResults', function (req, res) {
 
   console.dir(queryData)
 
-  // res.send("done")
-  //res.writeHead(200, {"Content-Type": "text/plain"});
-
-// transactionReference=318cef4a-0a8c-45eb-bf54-330425fa9024
-
-	// x = 0
-
-	// if (x == 1) {
-
   if (queryData.transactionStatus == "SUCCESS") {
 
-  	console.log("the netverify transaction was a success.")
+  	console.log("the netverify transaction finished.")
 
   	console.log("the transaction id is: " + queryData.transactionReference)
 
+  	demo()
+
   	req.session.transactionReference = queryData.transactionReference
+
+	var options = {
+	  method: 'GET',
+	  url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + '/data',
+	  headers: {
+	    'Cache-Control': 'no-cache',
+	    Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+	    Accept: 'application/json',
+	    'User-Agent': 'okta jumiotest/1.0.0'
+	  }
+	};
+
+	request(options, function (error, response, body) {
+	  if (error) throw new Error(error);
+
+	  console.log(body);
+
+	  console.log("the status of the scan is: " + body.status)
+
+	  body = JSON.parse(body)
+
+	  // for (i=0; i < 10; i++) {
+	  // 	if (body.status == "DONE") {}
+
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
+// async function demo() {
+//   console.log('Taking a break...');
+//   await sleep(2000);
+//   console.log('Two seconds later');
+// }
+
+// demo();
+
+	  console.log("the first name is: " + body.document.firstName)
+	  console.log("the last name is: " + body.document.lastName)
+
+	  fs.readFile('./html/register.html', (err, data) => {
+		if (err) {
+			console.log("error reading the register.html file")
+		}
+
+		var page = data.toString()
+
+		page = page.replace(/{{fname}}/g, body.document.firstName)
+		page = page.replace(/{{lname}}/g, body.document.lastName)
+
+		res.send(page)
+		})
+	});
 
 	var options = {
 	  method: 'GET',
@@ -250,3 +295,13 @@ app.post('/go', function (req, res) {
 
 	});
 })
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demo() {
+  console.log('Taking a break...');
+  await sleep(2000);
+  console.log('Two seconds later');
+}
