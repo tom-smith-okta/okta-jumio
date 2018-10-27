@@ -205,7 +205,7 @@ app.get('/userResults', function (req, res) {
 	// 	}
 	// }, 3000);
  //  }
-})
+// })
 
 	//   console.log("the first name is: " + body.document.firstName)
 	//   console.log("the last name is: " + body.document.lastName)
