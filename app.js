@@ -101,41 +101,55 @@ app.get('/userResults', function (req, res) {
 	};
 
 	request(options, function (error, response, body) {
-	  if (error) throw new Error(error);
+		if (error) throw new Error(error);
 
-	  console.log(body);
+		console.log(body)
 
-	  console.log("the status of the scan is: " + body.status)
+		body = JSON.parse(body)
 
-	  body = JSON.parse(body)
+		console.log("the body status is: " + body.status)
 
-	  if (body.status === "DONE") { done = true }
+		if (body.status != "DONE") {
+			sleep(5000)
+		}
 
-	  console.log("the body status is: " + body.status)
+		var options = {
+		  method: 'GET',
+		  url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + '/data',
+		  headers: {
+		    'Cache-Control': 'no-cache',
+		    Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+		    Accept: 'application/json',
+		    'User-Agent': 'okta jumiotest/1.0.0'
+		  }
+		}
 
-	  console.log("the value of 'done' is: " + done)
+		request(options, function (error, response, body) {
+			if (error) throw new Error(error);
+
+			console.log(body);
+
+			body = JSON.parse(body)
+
+			console.log("the first name is: " + body.document.firstName)
+			console.log("the last name is: " + body.document.lastName)
+
+			fs.readFile('./html/register.html', (err, data) => {
+				if (err) {
+					console.log("error reading the register.html file")
+				}
+
+				var page = data.toString()
+
+				page = page.replace(/{{fname}}/g, body.document.firstName)
+				page = page.replace(/{{lname}}/g, body.document.lastName)
+
+				res.send(page)
+			})
+		})
 	})
-
-	console.log("finished.")
-
-	res.end("finished.");
   }
 })
-
-	  // for (i=0; i < 10; i++) {
-	  // 	if (body.status == "DONE") {}
-
-// function sleep(ms) {
-//   return new Promise(resolve => setTimeout(resolve, ms));
-// }
-
-// async function demo() {
-//   console.log('Taking a break...');
-//   await sleep(2000);
-//   console.log('Two seconds later');
-// }
-
-// demo();
 
 	//   console.log("the first name is: " + body.document.firstName)
 	//   console.log("the last name is: " + body.document.lastName)
