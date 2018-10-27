@@ -101,6 +101,9 @@ app.get('/userResults', function (req, res) {
 	};
 
 	request(options, function (error, response, body) {
+
+		sleep(5000)
+
 		if (error) throw new Error(error);
 
 		console.log(body)
@@ -112,6 +115,7 @@ app.get('/userResults', function (req, res) {
 		if (body.status != "DONE") {
 			sleep(5000)
 		}
+
 
 		var options = {
 		  method: 'GET',
