@@ -62,8 +62,114 @@ app.get('/', function (req, res) {
 
 app.get('/get_status', function (req, res) {
 
-	res.send("complete")
+	// console.log("the netverify transaction finished.")
 
+	// console.log("the transaction id is: " + queryData.transactionReference)
+
+	console.log("the transaction id is: " + req.session.transactionReference)
+
+	var i = 0
+	var done = false
+
+	const intervalObj = setInterval(() => {
+
+		if (i == 100 || done == true) {
+
+			clearInterval(intervalObj);
+
+			var j = 0
+
+			var got_user_data = false
+
+			const intervalObj2 = setInterval(() => {
+				console.log('now we are in the internal loop.');
+
+				if (j == 5 || got_user_data == true) {
+
+					clearInterval(intervalObj2)
+
+					res.send(req.session.user_data)
+				}
+
+				else {
+					j++
+					console.log("trying to get the user data from netverify...")
+					console.log("this is attempt number " + j)
+
+					var options = {
+						method: 'GET',
+						url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + '/data',
+						headers: {
+							'Cache-Control': 'no-cache',
+							Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+							Accept: 'application/json',
+							'User-Agent': 'okta jumiotest/1.0.0'
+						}
+					}
+
+					request(options, function (error, response, body) {
+						if (error) throw new Error(error);
+
+						console.log(body);
+
+						body = JSON.parse(body)
+
+						console.log("the first name is: " + body.document.firstName)
+						console.log("the last name is: " + body.document.lastName)
+
+						got_user_data = true
+
+						req.session.user_data = body
+
+						// fs.readFile('./html/register.html', (err, data) => {
+						// 	if (err) {
+						// 		console.log("error reading the register.html file")
+						// 	}
+
+						// 	var page = data.toString()
+
+						// 	page = page.replace(/{{fname}}/g, body.document.firstName)
+						// 	page = page.replace(/{{lname}}/g, body.document.lastName)
+
+						// 	res.send(page)
+						// })
+					})
+				}
+			}, 500);
+		}
+
+		else {
+			i++
+			console.log("trying to get a status from netverify...")
+			console.log("this is attempt number " + i)
+
+			var options = {
+				method: 'GET',
+				url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference,
+				headers: {
+					'Cache-Control': 'no-cache',
+					Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+					Accept: 'application/json',
+					'User-Agent': 'okta jumiotest/1.0.0'
+				}
+			}
+
+			request(options, function (error, response, body) {
+
+				if (error) throw new Error(error);
+
+				console.log(body)
+
+				body = JSON.parse(body)
+
+				console.log("the body status is: " + body.status)
+
+				if (body.status == "DONE") {
+					done = true
+				}
+			})
+		}
+	}, 3000);
 })
 
 app.post('/callback', function (req, res) {
@@ -89,11 +195,11 @@ app.get('/userResults', function (req, res) {
 
   console.dir(queryData)
 
-  // res.send("this is the reg form")
-
   if (queryData.transactionStatus == "SUCCESS") {
 
-	fs.readFile('./html/register.html', (err, data) => {
+	req.session.transactionReference = queryData.transactionReference
+
+	fs.readFile('html/register.html', (err, data) => {
 		if (err) {
 			console.log("error reading the register.html file")
 		}
