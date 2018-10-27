@@ -90,7 +90,7 @@ app.get('/userResults', function (req, res) {
 
 	const intervalObj = setInterval(() => {
 
-		if (i == 5 || done == true) {
+		if (i == 10 || done == true) {
 
 			clearInterval(intervalObj);
 
