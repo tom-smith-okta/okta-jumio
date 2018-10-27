@@ -179,7 +179,7 @@ app.get('/userResults', function (req, res) {
 				}
 			})
 		}
-	}, 1000);
+	}, 2000);
   }
 })
 
