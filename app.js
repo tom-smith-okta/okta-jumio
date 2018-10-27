@@ -83,9 +83,27 @@ app.get('/userResults', function (req, res) {
 
   console.dir(queryData)
 
-  res.send("this is the reg form")
+  // res.send("this is the reg form")
 
- //  if (queryData.transactionStatus == "SUCCESS") {
+  if (queryData.transactionStatus == "SUCCESS") {
+
+	fs.readFile('./html/register.html', (err, data) => {
+		if (err) {
+			console.log("error reading the register.html file")
+		}
+
+		var page = data.toString()
+
+		page = page.replace(/{{fname}}/g, body.document.firstName)
+		page = page.replace(/{{lname}}/g, body.document.lastName)
+
+		res.send(page)
+	})
+  
+  }
+})
+
+
 
 	// console.log("the netverify transaction finished.")
 
