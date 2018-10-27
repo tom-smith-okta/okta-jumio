@@ -60,6 +60,12 @@ app.get('/', function (req, res) {
 	})
 })
 
+app.get('/get_status', function (req, res) {
+
+	res.send("complete")
+
+})
+
 app.post('/callback', function (req, res) {
 
 	console.log("the callback from netverify is: ")
@@ -317,7 +323,7 @@ app.post('/register', function (req, res) {
 	var options = {
 		method: 'POST',
 	  url: 'https://okta-jumio.oktapreview.com/api/v1/users',
-	  qs: { activate: 'true' },
+	  qs: { activate: 'false' },
 	  headers: {
 		 'Cache-Control': 'no-cache',
 		 Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
