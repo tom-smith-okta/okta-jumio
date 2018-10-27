@@ -79,108 +79,110 @@ app.get('/userResults', function (req, res) {
 
   console.dir(queryData)
 
-  if (queryData.transactionStatus == "SUCCESS") {
+  res.send("this is the reg form")
 
-	console.log("the netverify transaction finished.")
+ //  if (queryData.transactionStatus == "SUCCESS") {
 
-	console.log("the transaction id is: " + queryData.transactionReference)
+	// console.log("the netverify transaction finished.")
 
-	var i = 0
-	var done = false
+	// console.log("the transaction id is: " + queryData.transactionReference)
 
-	const intervalObj = setInterval(() => {
+	// var i = 0
+	// var done = false
 
-		if (i == 100 || done == true) {
+	// const intervalObj = setInterval(() => {
 
-			clearInterval(intervalObj);
+	// 	if (i == 100 || done == true) {
 
-			var j = 0
+	// 		clearInterval(intervalObj);
 
-			var got_user_data = false
+	// 		var j = 0
 
-			const intervalObj2 = setInterval(() => {
-				console.log('now we are in the internal loop.');
+	// 		var got_user_data = false
 
-				if (j == 5 || got_user_data == true) {
-					clearInterval(intervalObj2);
-				}
+	// 		const intervalObj2 = setInterval(() => {
+	// 			console.log('now we are in the internal loop.');
 
-				else {
-					j++
-					console.log("trying to get the user data from netverify...")
-					console.log("this is attempt number " + j)
+	// 			if (j == 5 || got_user_data == true) {
+	// 				clearInterval(intervalObj2);
+	// 			}
 
-					var options = {
-						method: 'GET',
-						url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + '/data',
-						headers: {
-							'Cache-Control': 'no-cache',
-							Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
-							Accept: 'application/json',
-							'User-Agent': 'okta jumiotest/1.0.0'
-						}
-					}
+	// 			else {
+	// 				j++
+	// 				console.log("trying to get the user data from netverify...")
+	// 				console.log("this is attempt number " + j)
 
-					request(options, function (error, response, body) {
-						if (error) throw new Error(error);
+	// 				var options = {
+	// 					method: 'GET',
+	// 					url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference + '/data',
+	// 					headers: {
+	// 						'Cache-Control': 'no-cache',
+	// 						Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+	// 						Accept: 'application/json',
+	// 						'User-Agent': 'okta jumiotest/1.0.0'
+	// 					}
+	// 				}
 
-						console.log(body);
+	// 				request(options, function (error, response, body) {
+	// 					if (error) throw new Error(error);
 
-						body = JSON.parse(body)
+	// 					console.log(body);
 
-						console.log("the first name is: " + body.document.firstName)
-						console.log("the last name is: " + body.document.lastName)
+	// 					body = JSON.parse(body)
 
-						fs.readFile('./html/register.html', (err, data) => {
-							if (err) {
-								console.log("error reading the register.html file")
-							}
+	// 					console.log("the first name is: " + body.document.firstName)
+	// 					console.log("the last name is: " + body.document.lastName)
 
-							var page = data.toString()
+	// 					fs.readFile('./html/register.html', (err, data) => {
+	// 						if (err) {
+	// 							console.log("error reading the register.html file")
+	// 						}
 
-							page = page.replace(/{{fname}}/g, body.document.firstName)
-							page = page.replace(/{{lname}}/g, body.document.lastName)
+	// 						var page = data.toString()
 
-							res.send(page)
-						})
-					})
-				}
-			}, 500);
-		}
+	// 						page = page.replace(/{{fname}}/g, body.document.firstName)
+	// 						page = page.replace(/{{lname}}/g, body.document.lastName)
 
-		else {
-			i++
-			console.log("trying to get a status from netverify...")
-			console.log("this is attempt number " + i)
+	// 						res.send(page)
+	// 					})
+	// 				})
+	// 			}
+	// 		}, 500);
+	// 	}
 
-			var options = {
-				method: 'GET',
-				url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference,
-				headers: {
-					'Cache-Control': 'no-cache',
-					Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
-					Accept: 'application/json',
-					'User-Agent': 'okta jumiotest/1.0.0'
-				}
-			}
+	// 	else {
+	// 		i++
+	// 		console.log("trying to get a status from netverify...")
+	// 		console.log("this is attempt number " + i)
 
-			request(options, function (error, response, body) {
+	// 		var options = {
+	// 			method: 'GET',
+	// 			url: 'https://netverify.com/api/netverify/v2/scans/' + queryData.transactionReference,
+	// 			headers: {
+	// 				'Cache-Control': 'no-cache',
+	// 				Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+	// 				Accept: 'application/json',
+	// 				'User-Agent': 'okta jumiotest/1.0.0'
+	// 			}
+	// 		}
 
-				if (error) throw new Error(error);
+	// 		request(options, function (error, response, body) {
 
-				console.log(body)
+	// 			if (error) throw new Error(error);
 
-				body = JSON.parse(body)
+	// 			console.log(body)
 
-				console.log("the body status is: " + body.status)
+	// 			body = JSON.parse(body)
 
-				if (body.status == "DONE") {
-					done = true
-				}
-			})
-		}
-	}, 3000);
-  }
+	// 			console.log("the body status is: " + body.status)
+
+	// 			if (body.status == "DONE") {
+	// 				done = true
+	// 			}
+	// 		})
+	// 	}
+	// }, 3000);
+ //  }
 })
 
 	//   console.log("the first name is: " + body.document.firstName)
