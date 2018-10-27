@@ -50,31 +50,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
-<!-- BOX JS-->
-
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
-
-<script src="https://cdn01.boxcdn.net/platform/elements/4.0.1/en-US/explorer.js"></script>
-
-<script>
-
-function showBoxUI(boxAccessToken) {
-	console.log("the box access token is: " + boxAccessToken);
-
-	var folderId = '0';
-
-	var contentExplorer = new Box.ContentExplorer();
-	contentExplorer.show(folderId, boxAccessToken, {
-		container: '#app-container',
-		logoUrl: 'box'
-		// logoUrl: 'https://www.okta.com/sites/all/themes/Okta/images/blog/Logos/Okta_Logo_BrightBlue_Medium.png'
-	})
-
-	$("#app-container").show();
-}
-
-</script>
-
 <script>
 
 window.onload = function() {

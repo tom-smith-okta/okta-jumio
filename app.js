@@ -62,12 +62,29 @@ app.get('/', function (req, res) {
 	})
 })
 
-app.get('/callback', function (req, res) {
+app.post('/callback', function (req, res) {
+
+	console.log("the callback from netverify is: ")
+
+	console.dir(req.body)
+})
+
+app.get('/userResults', function (req, res) {
 
   var queryData = url.parse(req.url, true).query
+
+  console.log("the query coming back from netverify is: ")
+
+  console.dir(queryData)
+
+  // res.send("done")
   //res.writeHead(200, {"Content-Type": "text/plain"});
 
 // transactionReference=318cef4a-0a8c-45eb-bf54-330425fa9024
+
+	// x = 0
+
+	// if (x == 1) {
 
   if (queryData.transactionStatus == "SUCCESS") {
 
@@ -213,8 +230,8 @@ app.post('/go', function (req, res) {
 	  body: {
 	  	customerInternalReference: 'okta_transaction_12345',
 	     userReference: 'user_1234',
-	     successUrl: 'https://okta-jumio.herokuapp.com/callback',
-	     errorUrl: 'https://okta-jumio.herokuapp.com/',
+	     successUrl: 'https://okta-jumio.herokuapp.com/userResults',
+	     errorUrl: 'https://okta-jumio.herokuapp.com/error',
 	     callbackUrl: 'https://okta-jumio.herokuapp.com/callback',
 	     reportingCriteria: 'myReport1234',
 	     workflowId: 200,
