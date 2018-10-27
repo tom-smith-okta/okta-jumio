@@ -16,10 +16,6 @@ var request = require('request');
 
 var url = require('url')
 
-var sleep = require('system-sleep')
-
-// var jsonParser = bodyParser.json()
-
 ///////////////////////////////////////////////////
 
 // SET UP WEB SERVER
@@ -69,6 +65,14 @@ app.post('/callback', function (req, res) {
 	console.log("the callback from netverify is: ")
 
 	console.dir(req.body)
+
+	var results = JSON.parse(req.body)
+
+	var firstName = results.idFirstName
+
+	console.log("the first name is: " + firstName)
+
+	req.session.firstName = firstName
 })
 
 app.get('/userResults', function (req, res) {
