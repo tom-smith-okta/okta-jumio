@@ -90,11 +90,13 @@
     <script src="http://getbootstrap.com/docs/4.1/assets/js/vendor/holder.min.js"></script>
 
 <script type="text/javascript">
-  $.get( "/get_status", function( data ) {
-    $( ".result" ).html( data );
-    alert( "Load was performed." );
-    alert("the response is: " + data)
-  });
+  window.onload = function() {
+    $.get( "/get_status", function( data ) {
+      $( ".result" ).html( data );
+      alert( "Load was performed." );
+      alert("the response is: " + data)
+    });
+  };
 </script>
 
 
