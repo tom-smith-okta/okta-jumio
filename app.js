@@ -71,7 +71,7 @@ app.get('/status', function (req, res) {
 	var transactionID = queryData.transactionID
 
 	console.log("making a request to the /scans endpoint...")
-	// console.log("the transactionReference is: " + req.session.transactionReference)
+
 	var options = {
 		method: 'GET',
 		url: 'https://netverify.com/api/netverify/v2/scans/' + transactionID,
@@ -93,15 +93,42 @@ app.get('/status', function (req, res) {
 
 		body = JSON.parse(body)
 
-		// res.send("PENDING")
+		if (body.status === "DONE") {
 
-		res.send(body.status)
+			var options = {
+				method: 'GET',
+				url: 'https://netverify.com/api/netverify/v2/scans/' + transactionID + '/data',
+				headers: {
+					'Cache-Control': 'no-cache',
+					Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+					Accept: 'application/json',
+					'User-Agent': 'okta jumiotest/1.0.0'
+				}
+			}
 
-		// console.log("the body status is: " + body.status)
+			request(options, function (error, response, body) {
+				if (error) throw new Error(error);
 
-		// if (body.status == "DONE") {
-		// 	done = true
-		// }
+				console.log(body)
+
+				obj = JSON.parse(body)
+
+				doc_status = obj.document.status
+
+				if (obj.document.status === "APPROVED_VERIFIED") {
+					// Create Okta user record
+
+					console.log("the first name is: " + obj.document.firstName)
+					console.log("the last name is: " + obj.document.lastName)
+				}
+				else {
+					res.send(doc_status)
+				}
+			})
+		}
+		else {
+			res.send(body.status)
+		}
 	})
 })
 
@@ -225,13 +252,13 @@ app.post('/callback', function (req, res) {
 
 	console.dir(req.body)
 
-	//var results = JSON.parse(req.body)
-
 	var firstName = req.body.idFirstName
 
 	console.log("the first name is: " + firstName)
 
 	req.session.firstName = firstName
+
+	res.send("OK")
 })
 
 app.get('/userResults', function (req, res) {
@@ -252,9 +279,6 @@ app.get('/userResults', function (req, res) {
 		}
 
 		var page = data.toString()
-
-		// page = page.replace(/{{fname}}/g, body.document.firstName)
-		// page = page.replace(/{{lname}}/g, body.document.lastName)
 
 		res.send(page)
 	})
