@@ -628,7 +628,7 @@ app.post('/register', function (req, res) {
 
 		//   console.log(body);
 
-		//   res.redirect('/thank_you')
+		res.redirect('/thank_you')
 
 		// });
 	});
