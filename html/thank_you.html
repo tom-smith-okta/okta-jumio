@@ -43,14 +43,17 @@
 
 								if (response.status == "APPROVED_VERIFIED") {
 
-									$("#status").html('<p id="status"><button type="button" class="btn btn-success">Success!</button></p><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.')
+									$("#status").html('<button type="button" class="btn btn-success">Success!</button><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.</p>')
 
 									clearInterval(intervalObj)
 									console.log(response.data)
 								}
 
 								if (response.status != "PENDING") {
+									$("#status").html('<button type="button" class="btn btn-danger">Sorry</button><p class="lead text-muted">Something went wrong with your document scan. You can <a href="/">try again</a> if you wish.</p>')
+
 									clearInterval(intervalObj)
+									console.log(response.data)
 								}
 							}, "json")
 						}
@@ -96,7 +99,7 @@
 
 								<p class="lead text-muted">We're just doing some final checks and then we'll send you an activation email.</p>
 
-								<p id="status"><button type="button" class="btn btn-warning">Processing...</button></p>
+								<div id="status"><button type="button" class="btn btn-warning">Processing...</button></div>
 
 							</div>
 
@@ -105,7 +108,8 @@
 								<p class="lead text-muted"><i>Behind the scenes</i></p>
 
 <!-- 								<p class="lead text-muted">
- -->									<ul class="list-group">
+ -->
+									<ul class="list-group" style="text-align: left">
 										<li class="list-group-item">The user has successfully submitted images to Jumio.</li>
 										<li class="list-group-item">The user has successfully created an Okta user record. The Okta user record is in a STAGED (i.e. not active) status - the user cannot authenticate. We have also added the Jumio TransactionReference to the Okta user record.</li>
 										<li class="list-group-item">We are waiting for Jumio to finish processing the images that the user has submitted. We are periodically pinging the Jumio API and getting a PENDING status. (Open the browser console to see status.) When we get a status of DONE:</li>
