@@ -104,17 +104,17 @@
 
 								<p class="lead text-muted"><i>Behind the scenes</i></p>
 
-								<p class="lead text-muted">
-									<ul>
-										<li>The user has successfully submitted images to Jumio.</li>
-										<li>The user has successfully created an Okta user record. The Okta user record is in a STAGED (i.e. not active) status - the user cannot authenticate. We have also added the Jumio TransactionReference to the Okta user record.</li>
-										<li>We are waiting for Jumio to finish processing the images that the user has submitted. We are periodically pinging the Jumio API and getting a PENDING status. (Open the browser console to see status.) When we get a status of DONE:</li>
-										<li>We check for an APPROVED_VERIFIED status.</li>
-										<li>If we get an APPROVED_VERIFIED status, then we toggle the user's Okta status to "active" and send the user an activation email.</li>
-										<li>After the user finishes setting up their Okta account, they will be redirected back to this site.</li>
+<!-- 								<p class="lead text-muted">
+ -->									<ul class="list-group">
+										<li class="list-group-item">The user has successfully submitted images to Jumio.</li>
+										<li class="list-group-item">The user has successfully created an Okta user record. The Okta user record is in a STAGED (i.e. not active) status - the user cannot authenticate. We have also added the Jumio TransactionReference to the Okta user record.</li>
+										<li class="list-group-item">We are waiting for Jumio to finish processing the images that the user has submitted. We are periodically pinging the Jumio API and getting a PENDING status. (Open the browser console to see status.) When we get a status of DONE:</li>
+										<li class="list-group-item">We check for an APPROVED_VERIFIED status.</li>
+										<li class="list-group-item">If we get an APPROVED_VERIFIED status, then we toggle the user's Okta status to "active" and send the user an activation email.</li>
+										<li class="list-group-item">After the user finishes setting up their Okta account, they will be redirected back to this site.</li>
 									</ul>
-								</p>
-							</div>
+<!-- 								</p>
+ -->							</div>
 						</div><!-- /row -->
 				</div><!-- /container -->
 			</section>

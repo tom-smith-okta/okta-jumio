@@ -24,7 +24,7 @@ const app = express();
 var port = process.env.PORT || 5459;
 
 app.use(express.static('public'))
-// app.use(bodyParser.json())
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
@@ -37,25 +37,6 @@ app.listen(port, function () {
 
 
 //////////////////////////////////////////////////
-
-// // HOME PAGE
-// app.get('/', function (req, res) {
-// 	fs.readFile('html/index.html', (err, data) => {
-// 		if (err) {
-// 			console.log("error reading the index.html file")
-// 		}
-
-// 		var page = data.toString()
-
-// 		page = page.replace(/{{baseUrl}}/g, "https://" + process.env.OKTA_TENANT)
-// 		page = page.replace(/{{clientId}}/g, process.env.OKTA_CLIENT_ID)
-// 		page = page.replace(/{{OKTA_MFA_CLIENT_ID}}/g, process.env.OKTA_MFA_CLIENT_ID)
-// 		page = page.replace(/{{OKTA_REDIRECT_URI}}/g, process.env.OKTA_REDIRECT_URI)
-// 		page = page.replace(/{{logo}}/g, process.env.OKTA_LOGO)
-
-// 		res.send(page)
-// 	})
-// })
 
 app.get('/status', function (req, res) {
 
