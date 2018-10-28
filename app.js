@@ -66,15 +66,15 @@ app.get('/status', function (req, res) {
 
 	console.dir(queryData)
 
-	console.log("the transactionID from the client is: " + queryData.transactionID)
+	console.log("the transactionReference from the client is: " + queryData.transactionReference)
 
-	var transactionID = queryData.transactionID
+	var transactionReference = queryData.transactionReference
 
 	console.log("making a request to the /scans endpoint...")
 
 	var options = {
 		method: 'GET',
-		url: 'https://netverify.com/api/netverify/v2/scans/' + transactionID,
+		url: 'https://netverify.com/api/netverify/v2/scans/' + transactionReference,
 		headers: {
 			'Cache-Control': 'no-cache',
 			Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
@@ -99,7 +99,7 @@ app.get('/status', function (req, res) {
 
 			var options = {
 				method: 'GET',
-				url: 'https://netverify.com/api/netverify/v2/scans/' + transactionID + '/data',
+				url: 'https://netverify.com/api/netverify/v2/scans/' + transactionReference + '/data',
 				headers: {
 					'Cache-Control': 'no-cache',
 					Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
@@ -128,6 +128,58 @@ app.get('/status', function (req, res) {
 					console.log("the last name is: " + obj.document.lastName)
 
 					res.json(return_val)
+
+					let rawdata = fs.readFileSync('users.json')
+
+					let users = JSON.parse(rawdata)
+
+					var userID
+					var i
+
+					for (i=0; i < users.length; i++) {
+						if (users[i].transactionReference == transactionReference) {
+							userID = users[i].userID
+							break
+						}
+					}
+
+					// var new_user = {}
+
+		// new_user.referenceID = req.session.transactionReference
+
+		// new_user.userID = body.id
+
+		// users.push(new_user)
+
+		// fs.writeFileSync('users.json', JSON.stringify(users));
+
+					var options = {
+						method: 'POST',
+						url: 'https://okta-jumio.oktapreview.com/api/v1/users/' + userID + '/lifecycle/activate',
+						qs: { sendEmail: 'true' },
+						headers: {
+							'Cache-Control': 'no-cache',
+							Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+							Accept: 'application/json',
+							'Content-Type': 'application/json'
+						}
+					};
+
+					request(options, function (error, response, body) {
+					  if (error) throw new Error(error);
+
+					  console.log(body);
+
+					  // res.redirect('/thank_you')
+
+					});
+
+
+
+
+
+
+
 					// res.send(body)
 				}
 				else {
@@ -543,28 +595,42 @@ app.post('/register', function (req, res) {
 
 	  console.log("the user id is: " + body.id)
 
-		var request = require("request");
+	  let rawdata = fs.readFileSync('users.json')
 
-		var options = {
-			method: 'POST',
-			url: 'https://okta-jumio.oktapreview.com/api/v1/users/' + body.id + '/lifecycle/activate',
-			qs: { sendEmail: 'true' },
-			headers: {
-				'Cache-Control': 'no-cache',
-				Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			}
-		};
+		let users = JSON.parse(rawdata)
 
-		request(options, function (error, response, body) {
-		  if (error) throw new Error(error);
+		var new_user = {}
 
-		  console.log(body);
+		new_user.transactionReference = req.session.transactionReference
 
-		  res.redirect('/thank_you')
+		new_user.userID = body.id
 
-		});
+		users.push(new_user)
+
+		fs.writeFileSync('users.json', JSON.stringify(users));
+
+		// var request = require("request");
+
+		// var options = {
+		// 	method: 'POST',
+		// 	url: 'https://okta-jumio.oktapreview.com/api/v1/users/' + body.id + '/lifecycle/activate',
+		// 	qs: { sendEmail: 'true' },
+		// 	headers: {
+		// 		'Cache-Control': 'no-cache',
+		// 		Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+		// 		Accept: 'application/json',
+		// 		'Content-Type': 'application/json'
+		// 	}
+		// };
+
+		// request(options, function (error, response, body) {
+		//   if (error) throw new Error(error);
+
+		//   console.log(body);
+
+		//   res.redirect('/thank_you')
+
+		// });
 	});
 })
 
@@ -578,7 +644,7 @@ app.get('/thank_you', function (req, res) {
 		var page = data.toString()
 
 		page = page.replace(/{{email}}/g, req.session.email)
-		page = page.replace(/{{scanID}}/g, req.session.transactionReference)
+		page = page.replace(/{{transactionReference}}/g, req.session.transactionReference)
 
 		res.send(page)
 	})
@@ -619,13 +685,3 @@ app.post('/go', function (req, res) {
 
 	});
 })
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function demo() {
-  console.log('Taking a break...');
-  await sleep(5000);
-  console.log('Two seconds later');
-}

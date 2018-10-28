@@ -22,7 +22,7 @@
 <script type="text/javascript">
     window.onload = function() {
 
-      var scanID = "{{scanID}}"
+      var transactionReference = "{{transactionReference}}"
 
       var i = 0
       var done = false
@@ -30,17 +30,19 @@
       const intervalObj = setInterval(() => {
 
         if (i == 50 || done == true) {
-
           clearInterval(intervalObj);
         }
         else {
           i++
 
-          $.get( "/status?transactionID=" + scanID, function( response ) {
+          $.get( "/status?transactionReference=" + transactionReference, function( response ) {
 
             console.log("the status is: " + response.status)
 
             if (response.status == "APPROVED_VERIFIED") {
+
+              $("#status").html('<p id="status"><button type="button" class="btn btn-success">Success!</button></p><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.')
+
               clearInterval(intervalObj)
               console.log(response.data)
             }
@@ -55,27 +57,6 @@
 
 </script>
 
-<!-- <script type="text/javascript">
-  window.onload = function() {
-    $.get( "/get_status", function( data ) {
-      $( ".result" ).html( data );
-      alert( "Load was performed." );
-      alert("the response is: " + data)
-    });
-  };
-</script>
-
-
-<script>
-  window.onload = function() {
-    $.get( "/get_status", function( data ) {
-      $( ".result" ).html( data );
-      alert( "Load was performed." );
-      alert("the response is: " + data)
-    });
-  };
-</script>
- -->
   </head>
 
   <body>
