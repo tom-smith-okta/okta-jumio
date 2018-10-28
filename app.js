@@ -595,7 +595,7 @@ app.post('/register', function (req, res) {
 
 	  console.log("the user id is: " + body.id)
 
-	  let rawdata = fs.readFileSync('users.json')
+	  let rawdata = fs.readFileSync('./users.json')
 
 		let users = JSON.parse(rawdata)
 
@@ -607,7 +607,7 @@ app.post('/register', function (req, res) {
 
 		users.push(new_user)
 
-		fs.writeFileSync('users.json', JSON.stringify(users));
+		fs.writeFileSync('./users.json', JSON.stringify(users));
 
 		// var request = require("request");
 
