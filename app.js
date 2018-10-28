@@ -81,9 +81,9 @@ app.get('/status', function (req, res) {
 
 		body = JSON.parse(body)
 
-		res.send("PENDING")
+		// res.send("PENDING")
 
-		// res.send(body.status)
+		res.send(body.status)
 
 		// console.log("the body status is: " + body.status)
 
