@@ -62,11 +62,19 @@ app.get('/', function (req, res) {
 
 app.get('/status', function (req, res) {
 
+	var queryData = url.parse(req.url, true).query
+
+	console.dir(queryData)
+
+	console.log("the transactionID from the client is: " + queryData.transactionID)
+
+	var transactionID = queryData.transactionID
+
 	console.log("making a request to the /scans endpoint...")
-	console.log("the transactionReference is: " + req.session.transactionReference)
+	// console.log("the transactionReference is: " + req.session.transactionReference)
 	var options = {
 		method: 'GET',
-		url: 'https://netverify.com/api/netverify/v2/scans/' + req.session.transactionReference,
+		url: 'https://netverify.com/api/netverify/v2/scans/' + transactionID,
 		headers: {
 			'Cache-Control': 'no-cache',
 			Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
@@ -524,6 +532,7 @@ app.post('/register', function (req, res) {
 })
 
 app.get('/thank_you', function (req, res) {
+
 	fs.readFile('html/thank_you.html', (err, data) => {
 		if (err) {
 			console.log("error reading the thank_you.html file")
@@ -532,6 +541,7 @@ app.get('/thank_you', function (req, res) {
 		var page = data.toString()
 
 		page = page.replace(/{{email}}/g, req.session.email)
+		page = page.replace(/{{scanID}}/g, req.session.transactionReference)
 
 		res.send(page)
 	})
