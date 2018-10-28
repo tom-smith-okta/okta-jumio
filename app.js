@@ -62,6 +62,8 @@ app.get('/', function (req, res) {
 
 app.get('/status', function (req, res) {
 
+	console.log("making a request to the /scans endpoint...")
+	console.log("the transactionReference is: " + req.session.transactionReference)
 	var options = {
 		method: 'GET',
 		url: 'https://netverify.com/api/netverify/v2/scans/' + req.session.transactionReference,
@@ -76,6 +78,8 @@ app.get('/status', function (req, res) {
 	request(options, function (error, response, body) {
 
 		if (error) throw new Error(error);
+
+		console.log("received a response from the /scans endpoint:")
 
 		console.log(body)
 
