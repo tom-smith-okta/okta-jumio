@@ -89,6 +89,8 @@ app.get('/status', function (req, res) {
 
 		console.log("received a response from the /scans endpoint:")
 
+		var return_val = {}
+
 		console.log(body)
 
 		body = JSON.parse(body)
@@ -118,16 +120,27 @@ app.get('/status', function (req, res) {
 				if (obj.document.status === "APPROVED_VERIFIED") {
 					// Create Okta user record
 
+					return_val.status = "APPROVED_VERIFIED"
+
+					return_val.data = obj
+
 					console.log("the first name is: " + obj.document.firstName)
 					console.log("the last name is: " + obj.document.lastName)
+
+					res.json(return_val)
+					// res.send(body)
 				}
 				else {
-					res.send(doc_status)
+					return_val.status = body.status
+					res.json(return_val)
+					// res.send(doc_status)
 				}
 			})
 		}
 		else {
-			res.send(body.status)
+			return_val.status = body.status
+			res.json(return_val)
+			// res.send(body.status)
 		}
 	})
 })

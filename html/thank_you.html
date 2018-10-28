@@ -22,8 +22,6 @@
 <script type="text/javascript">
     window.onload = function() {
 
-      $("#some_div").html("this is a test")
-
       var scanID = "{{scanID}}"
 
       var i = 0
@@ -31,46 +29,27 @@
 
       const intervalObj = setInterval(() => {
 
-        if (i == 100 || done == true) {
+        if (i == 50 || done == true) {
 
           clearInterval(intervalObj);
         }
         else {
           i++
 
-          $.get( "/status?transactionID=" + scanID, function( data ) {
+          $.get( "/status?transactionID=" + scanID, function( response ) {
 
-            console.log("the response is: " + data)
+            console.log("the status is: " + response.status)
 
-            if (data == "DONE") {
-              clearInterval(intervalObj);
+            if (response.status == "APPROVED_VERIFIED") {
+              clearInterval(intervalObj)
+              console.log(response.data)
             }
 
-            if (data != "PENDING") {
-              clearInterval(intervalObj);
+            if (response.status != "PENDING") {
+              clearInterval(intervalObj)
             }
-          });
+          }, "json");
         }
-
-          // clearInterval(intervalObj);
-
-          // var j = 0
-
-          // var got_user_data = false
-
-          // const intervalObj2 = setInterval(() => {
-          //   console.log('now we are in the internal loop.');
-
-          //   if (j == 5 || got_user_data == true) {
-
-          //     clearInterval(intervalObj2)
-
-          //     res.send(req.session.user_data)
-          //   }
-
-          //   else {
-          //     j++
-          //     console.log("trying to get the user data from netverify...")
     }, 20000)
   }
 
@@ -132,8 +111,6 @@
 
 <!--                 <p><button type="button" class="btn btn-success">Success!</button></p>
  -->
- <div id="some_div"></div>
-
 
                 <p class="lead text-muted">Thank you for registering!</p>
 
