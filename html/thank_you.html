@@ -43,14 +43,14 @@
 
 								if (response.status == "APPROVED_VERIFIED") {
 
-									$("#status").html('<button type="button" class="btn btn-success">Success!</button><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.</p>')
+									$("#status").html('<p><button type="button" class="btn btn-success">Success!</button></p><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.</p>')
 
 									clearInterval(intervalObj)
 									console.log(response.data)
 								}
 
-								if (response.status != "PENDING") {
-									$("#status").html('<button type="button" class="btn btn-danger">Sorry</button><p class="lead text-muted">Something went wrong with your document scan. You can <a href="/">try again</a> if you wish.</p>')
+								else if (response.status != "PENDING") {
+									$("#status").html('<p><button type="button" class="btn btn-danger">Sorry</button></p><p class="lead text-muted">Something went wrong with your document scan. You can <a href="/">try again</a> if you wish.</p>')
 
 									clearInterval(intervalObj)
 									console.log(response.data)
