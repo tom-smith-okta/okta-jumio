@@ -24,13 +24,52 @@
 
       $("#some_div").html("this is a test")
 
-      $.get( "/get_status", function( data ) {
-        $( ".result" ).html( data );
-        alert( "Load was performed." );
-        alert("the response is: " + data)
-      });
+      var i = 0
+      var done = false
 
-    }
+      const intervalObj = setInterval(() => {
+
+        if (i == 100 || done == true) {
+
+          clearInterval(intervalObj);
+        }
+        else {
+          i++
+
+          $.get( "/status", function( data ) {
+            // $( ".result" ).html( data );
+            // alert( "Load was performed." );
+            alert("the response is: " + data)
+          });
+
+          // $.get( "/get_status", function( data ) {
+          //   $( ".result" ).html( data );
+          //   alert( "Load was performed." );
+          //   alert("the response is: " + data)
+          // });
+        }
+
+          // clearInterval(intervalObj);
+
+          // var j = 0
+
+          // var got_user_data = false
+
+          // const intervalObj2 = setInterval(() => {
+          //   console.log('now we are in the internal loop.');
+
+          //   if (j == 5 || got_user_data == true) {
+
+          //     clearInterval(intervalObj2)
+
+          //     res.send(req.session.user_data)
+          //   }
+
+          //   else {
+          //     j++
+          //     console.log("trying to get the user data from netverify...")
+    }, 1500)
+  }
 
 </script>
 
