@@ -40,7 +40,15 @@ app.listen(port, function () {
 
 app.get('/status', function (req, res) {
 
+	var return_val = {}
+
 	var queryData = url.parse(req.url, true).query
+
+	if (queryData.transactionReference === undefined) {
+		return_val.status = "TS_UNDEFINED_TRANSACTION_REFERENCE"
+		res.json(return_val)
+		return
+	}
 
 	console.dir(queryData)
 
@@ -67,7 +75,7 @@ app.get('/status', function (req, res) {
 
 		console.log("received a response from the /scans endpoint:")
 
-		var return_val = {}
+		// var return_val = {}
 
 		console.log(body)
 
