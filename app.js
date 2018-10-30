@@ -283,6 +283,41 @@ app.post('/callback', function (req, res) {
 				if (id_status.similarity == "MATCH" && id_status.validity) {
 					console.log("there was an id match with the JSON parsing.")
 					users[i].status = "IDENTITY_VERIFIED"
+
+					var options = {
+						method: 'POST',
+						url: 'https://okta-jumio.oktapreview.com/api/v1/users',
+						qs: { activate: 'true' },
+						headers: {
+							'Cache-Control': 'no-cache',
+							Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+							'Content-Type': 'application/json',
+							Accept: 'application/json'
+						},
+						body: {
+							profile: {
+								firstName: users[i].fname,
+								lastName: users[i].lname,
+								email: users[i].email,
+								login: users[i].email,
+								jumio_transaction_id: transactionReference
+							}
+						},
+						json: true
+					}
+
+					request(options, function (error, response, body) {
+						if (error) throw new Error(error)
+
+						if (body.errorCode) {
+							res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0].errorSummary)
+							return
+						}
+
+						console.log(body)
+
+						console.log("the user id is: " + body.id)
+					})
 				}
 				else {
 					console.log("Could not match ID with selfie.")
