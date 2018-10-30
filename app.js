@@ -93,6 +93,9 @@ app.get('/status', function (req, res) {
 		var return_val = {}
 
 		for (var i=0; i < users.length; i++) {
+
+			console.log("comparing " + users[i].transactionReference + " to " + transactionReference)
+
 			if (users[i].transactionReference == transactionReference) {
 				if (users[i].status == "pending") {
 					return_val.status = "PENDING"
