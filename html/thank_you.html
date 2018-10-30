@@ -24,7 +24,11 @@
 
 				console.log("checking on the status of the image evaluation...")
 
-				var transactionReference = "{{transactionReference}}"
+				var transactionReference = sessionStorage.getItem("transactionReference")
+
+				if (transactionReference === undefined) { return }
+
+				// var transactionReference = "{{transactionReference}}"
 
 				var i = 0
 				var done = false
