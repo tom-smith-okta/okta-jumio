@@ -250,7 +250,7 @@ app.post('/callback', function (req, res) {
 
 	var firstName = req.body.idFirstName
 
-	var transactionReference = req.body.transactionReference
+	var transactionReference = req.body.jumioIdScanReference
 
 	console.log("the first name is: " + firstName)
 
