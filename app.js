@@ -316,29 +316,55 @@ app.post('/register', function (req, res) {
 
 	res.send("the transactionReference is: " + req.body.transactionReference)
 
-	return
+	let rawdata = fs.readFileSync('users.json')
 
-	var options = {
-		method: 'POST',
-		url: 'https://okta-jumio.oktapreview.com/api/v1/users',
-		qs: { activate: 'false' },
-		headers: {
-			'Cache-Control': 'no-cache',
-			Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
-			'Content-Type': 'application/json',
-			Accept: 'application/json'
-		},
-		body: {
-			profile: {
-				firstName: req.body.fname,
-				lastName: req.body.lname,
-				email: req.body.email,
-				login: req.body.email,
-				jumio_transaction_id: req.session.transactionReference
-			}
-		},
-		json: true
-	}
+	let users = JSON.parse(rawdata)
+
+	var new_user = {}
+
+	new_user.transactionReference = req.session.transactionReference
+	new_user.fname = req.body.fname
+	new_user.lname = req.body.lname
+	new_user.email = req.body.email
+
+	users.push(new_user)
+
+	fs.writeFileSync('users.json', JSON.stringify(users))
+
+	fs.readFile('html/thank_you.html', (err, data) => {
+		if (err) {
+			console.log("error reading the thank_you.html file")
+		}
+
+		var page = data.toString()
+
+		page = page.replace(/{{email}}/g, req.session.email)
+		// page = page.replace(/{{transactionReference}}/g, req.session.transactionReference)
+
+		res.send(page)
+	})
+
+	// var options = {
+	// 	method: 'POST',
+	// 	url: 'https://okta-jumio.oktapreview.com/api/v1/users',
+	// 	qs: { activate: 'false' },
+	// 	headers: {
+	// 		'Cache-Control': 'no-cache',
+	// 		Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+	// 		'Content-Type': 'application/json',
+	// 		Accept: 'application/json'
+	// 	},
+	// 	body: {
+	// 		profile: {
+	// 			firstName: req.body.fname,
+	// 			lastName: req.body.lname,
+	// 			email: req.body.email,
+	// 			login: req.body.email,
+	// 			jumio_transaction_id: req.session.transactionReference
+	// 		}
+	// 	},
+	// 	json: true
+	// }
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error)
