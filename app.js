@@ -308,12 +308,9 @@ app.post('/callback', function (req, res) {
 
 		fs.writeFileSync('users.json', obj)
 
-		res.json(obj)
-
 		console.dir(obj);
 	  // expected output: "foo"
 	}).catch(function(obj) {
-		res.json(obj)
 
 		console.dir(obj);
 	});
