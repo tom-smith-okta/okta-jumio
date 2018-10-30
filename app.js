@@ -306,7 +306,7 @@ app.post('/callback', function (req, res) {
 
 	get_status.then(function(obj) {
 
-		fs.writeFileSync('users.json', obj)
+		fs.writeFileSync('users.json', JSON.stringify(obj))
 
 		console.dir(obj);
 	  // expected output: "foo"
