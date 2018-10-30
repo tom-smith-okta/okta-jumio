@@ -67,6 +67,8 @@ app.get('/status', function (req, res) {
 
 			console.log("the users.json file is: " + rawdata)
 
+			var users = JSON.parse(rawdata)
+
 			var return_val = {}
 
 			for (var i=0; i < users.length; i++) {
