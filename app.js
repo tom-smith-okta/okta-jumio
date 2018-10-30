@@ -187,11 +187,19 @@ app.post('/callback', function (req, res) {
 				resolve(users)
 			}
 		}
-	});
+	})
 
 	get_status.then(function(obj) {
 
-		fs.writeFileSync('users.json', JSON.stringify(obj))
+		// fs.writeFileSync('users.json', JSON.stringify(obj))
+
+		fs.writeFile("users.json", JSON.stringify(obj), 'utf8', function (err) {
+			if (err) {
+			return console.log(err);
+		}
+
+		console.log("The file was saved!");
+	})
 
 		console.dir(obj)
 	}).catch(function(obj) {
