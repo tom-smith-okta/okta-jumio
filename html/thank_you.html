@@ -28,8 +28,6 @@
 
 				if (transactionReference === undefined) { return }
 
-				// var transactionReference = "{{transactionReference}}"
-
 				var i = 0
 				var done = false
 
@@ -45,7 +43,7 @@
 
 							console.log("the status is: " + response.status)
 
-							if (response.status == "APPROVED_VERIFIED") {
+							if (response.status == "IDENTITY_VERIFIED") {
 
 								$("#status").html('<p><button type="button" class="btn btn-success">Success!</button></p><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.</p>')
 
@@ -115,11 +113,11 @@
  -->
 									<ul class="list-group" style="text-align: left">
 										<li class="list-group-item">The user has successfully submitted images to Jumio.</li>
-										<li class="list-group-item">The user has successfully created an Okta user record. The Okta user record is in a STAGED (i.e. not active) status - the user cannot authenticate. We have also added the Jumio TransactionReference to the Okta user record.</li>
-										<li class="list-group-item">We are waiting for Jumio to finish processing the images that the user has submitted. We are periodically pinging the Jumio API and getting a PENDING status. (Open the browser console to see status.) When we get a status of DONE:</li>
-										<li class="list-group-item">We check for an APPROVED_VERIFIED status.</li>
-										<li class="list-group-item">If we get an APPROVED_VERIFIED status, then we toggle the user's Okta status to "active" and send the user an activation email.</li>
-										<li class="list-group-item">After the user finishes setting up their Okta account, they will be redirected back to this site.</li>
+<!-- 										<li class="list-group-item">The user has successfully created an Okta user record. The Okta user record is in a STAGED (i.e. not active) status - the user cannot authenticate. We have also added the Jumio TransactionReference to the Okta user record.</li> -->
+										<li class="list-group-item">We are waiting for Jumio to finish processing the images that the user has submitted. From this browser, we are periodically polling the server-side application to see if it has received the callback from Jumio yet. (You can open the browser console to see the calls being made.)</li>
+										<li>When the server receives the callback from Jumio, it checks to see if the id status is valid, and if there is a match between the id and the selfie.</li>
+										<li>If everything checks out, then the server sets up an Okta account for the user and send the user an activation email.</li>
+										<li class="list-group-item">After the user checks their email and finishes setting up their Okta account, they will be redirected back to this site.</li>
 									</ul>
 <!-- 								</p>
  -->							</div>

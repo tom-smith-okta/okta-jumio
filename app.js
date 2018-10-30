@@ -290,10 +290,6 @@ app.post('/callback', function (req, res) {
 				}
 
 				resolve(users)
-
-				// fs.writeFileSync('users.json', JSON.stringify(users))
-
-				// break
 			}
 		}
 
