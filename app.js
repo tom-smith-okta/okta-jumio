@@ -190,11 +190,15 @@ app.post('/callback', function (req, res) {
 
 	res.send("OK")
 
+	if (req.body.identityVerification.similarity == "MATCH" && 
+		req.body.identityVerification.validity == true) {
 
-
-
-
-	
+		console.log("there was an id match.")
+	}
+	else {
+		console.log("there was not an id match.")
+	}
+		// identityVerification: '{"similarity":"MATCH","validity":true}',
 })
 
 app.get('/userResults', function (req, res) {
