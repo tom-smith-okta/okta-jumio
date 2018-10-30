@@ -314,8 +314,6 @@ app.post('/register', function (req, res) {
 
 	console.log("the transactionReference is: " + req.body.transactionReference)
 
-	res.send("the transactionReference is: " + req.body.transactionReference)
-
 	let rawdata = fs.readFileSync('users.json')
 
 	let users = JSON.parse(rawdata)
