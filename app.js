@@ -56,37 +56,39 @@ app.get('/status', function (req, res) {
 
 	var transactionReference = queryData.transactionReference
 
-	let rawdata = fs.readFileSync('users.json')
-
-	console.log("the users.json file is: " + rawdata)
-
-	let users = JSON.parse(rawdata)
-
-	console.log("the users.json file is: " + rawdata)
-
 	var get_status = new Promise(function(resolve, reject) {
 
-		var return_val = {}
+		let rawdata = fs.readFileSync('users.json')
 
-		for (var i=0; i < users.length; i++) {
-
-			console.log("comparing " + users[i].transactionReference + " to " + transactionReference)
-
-			if (users[i].transactionReference == transactionReference) {
-
-				console.log("there is a match.")
-
-				if (users[i].status == "pending") {
-					return_val.status = "PENDING"
-				}
-				else {
-					return_val.status = users[i].status
-					return_val.data = users[i].data
-				}
-
-				resolve(return_val)
+		fs.readFile('users.json', function read(err, rawdata) {
+			if (err) {
+				throw err;
 			}
-		}
+
+			console.log("the users.json file is: " + rawdata)
+
+			var return_val = {}
+
+			for (var i=0; i < users.length; i++) {
+
+				console.log("comparing " + users[i].transactionReference + " to " + transactionReference)
+
+				if (users[i].transactionReference == transactionReference) {
+
+					console.log("there is a match.")
+
+					if (users[i].status == "pending") {
+						return_val.status = "PENDING"
+					}
+					else {
+						return_val.status = users[i].status
+						return_val.data = users[i].data
+					}
+
+					resolve(return_val)
+				}
+			}
+		});
 	});
 
 	get_status.then(function(obj) {
