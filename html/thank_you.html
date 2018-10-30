@@ -109,18 +109,14 @@
 
 								<p class="lead text-muted"><i>Behind the scenes</i></p>
 
-<!-- 								<p class="lead text-muted">
- -->
-									<ul class="list-group" style="text-align: left">
-										<li class="list-group-item">The user has successfully submitted images to Jumio.</li>
-<!-- 										<li class="list-group-item">The user has successfully created an Okta user record. The Okta user record is in a STAGED (i.e. not active) status - the user cannot authenticate. We have also added the Jumio TransactionReference to the Okta user record.</li> -->
-										<li class="list-group-item">We are waiting for Jumio to finish processing the images that the user has submitted. From this browser, we are periodically polling the server-side application to see if it has received the callback from Jumio yet. (You can open the browser console to see the calls being made.)</li>
-										<li>When the server receives the callback from Jumio, it checks to see if the id status is valid, and if there is a match between the id and the selfie.</li>
-										<li>If everything checks out, then the server sets up an Okta account for the user and send the user an activation email.</li>
-										<li class="list-group-item">After the user checks their email and finishes setting up their Okta account, they will be redirected back to this site.</li>
-									</ul>
-<!-- 								</p>
- -->							</div>
+								<ul class="list-group" style="text-align: left">
+									<li class="list-group-item">The user has successfully submitted images to Jumio.</li>
+									<li class="list-group-item">We are waiting for Jumio to finish processing the images that the user has submitted. From this browser, we are periodically polling the server-side application to see if it has received the callback from Jumio yet. (You can open the browser console to see the calls being made.)</li>
+									<li class="list-group-item">When the server receives the callback from Jumio, it checks to see if the id status is valid, and if there is a match between the id and the selfie.</li>
+									<li class="list-group-item">If everything checks out, then the server sets up an Okta account for the user and send the user an activation email.</li>
+									<li class="list-group-item">After the user checks their email and finishes setting up their Okta account, they will be redirected back to this site.</li>
+								</ul>
+							</div>
 						</div><!-- /row -->
 				</div><!-- /container -->
 			</section>
