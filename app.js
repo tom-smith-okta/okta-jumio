@@ -190,6 +190,15 @@ app.post('/callback', function (req, res) {
 
 	res.send("OK")
 
+	var id_status = JSON.parse(req.body.identityVerification)
+
+	console.log("the value for similarity is: " + id_status.similarity)
+
+	if (id_status.similarity == "MATCH" && id_status.validity) {
+		console.log("there was an id match with the JSON parsing.")
+
+	}
+
 	if (req.body.identityVerification.similarity == "MATCH" && 
 		req.body.identityVerification.validity == true) {
 
