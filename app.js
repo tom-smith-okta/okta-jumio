@@ -115,9 +115,11 @@ app.get('/status', function (req, res) {
 			}
 		}
 
+		console.log("could not find user.")
+
 		return_val.status = "NO_USER"
 
-		resolve(return_val)
+		reject(return_val)
 	});
 
 	get_status.then(function(obj) {
@@ -126,6 +128,10 @@ app.get('/status', function (req, res) {
 
 		console.dir(obj);
 	  // expected output: "foo"
+	}).catch(function(obj) {
+		res.json(obj)
+
+		console.dir(obj);
 	});
 
 	// console.log(promise2);
