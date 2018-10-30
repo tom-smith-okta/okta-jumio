@@ -115,11 +115,11 @@ app.get('/status', function (req, res) {
 			}
 		}
 
-		console.log("could not find user.")
+		// console.log("could not find user.")
 
-		return_val.status = "NO_USER"
+		// return_val.status = "NO_USER"
 
-		reject(return_val)
+		// reject(return_val)
 	});
 
 	get_status.then(function(obj) {
