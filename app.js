@@ -84,7 +84,6 @@ app.get('/status', function (req, res) {
 						return_val.status = users[i].status
 						return_val.data = users[i].data
 					}
-
 					resolve(return_val)
 				}
 			}
