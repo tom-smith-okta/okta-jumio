@@ -63,14 +63,15 @@ app.get('/status', function (req, res) {
 	for (var i=0; i < users.length; i++) {
 		if (users[i].transactionReference == transactionReference) {
 			if (users[i].status == "pending") {
-				return_val.status == "PENDING"
-
-				res.json(return_val)
+				return_val.status = "PENDING"
 			}
 			else {
 				return_val.status = users[i].status
 				return_val.data = users[i].data
 			}
+
+			res.json(return_val)
+
 			break
 		}
 	}
@@ -186,6 +187,8 @@ app.post('/callback', function (req, res) {
 
 	var firstName = req.body.idFirstName
 
+	var transactionReference = req.body.transactionReference
+
 	console.log("the first name is: " + firstName)
 
 	res.send("OK")
@@ -194,20 +197,29 @@ app.post('/callback', function (req, res) {
 
 	console.log("the value for similarity is: " + id_status.similarity)
 
-	if (id_status.similarity == "MATCH" && id_status.validity) {
-		console.log("there was an id match with the JSON parsing.")
+	let rawdata = fs.readFileSync('users.json')
 
-	}
+	let users = JSON.parse(rawdata)
 
-	if (req.body.identityVerification.similarity == "MATCH" && 
-		req.body.identityVerification.validity == true) {
+	for (var i=0; i < users.length; i++) {
+		if (users[i].transactionReference == transactionReference) {
 
-		console.log("there was an id match.")
+			users[i].data = req.body
+
+			if (id_status.similarity == "MATCH" && id_status.validity) {
+				console.log("there was an id match with the JSON parsing.")
+				users[i].status = "IDENTITY_VERIFIED"
+			}
+			else {
+				console.log("Could not match ID with selfie.")
+				users[i].status = "IDENTITY_NOT_VERIFIED"
+			}
+
+			fs.writeFileSync('users.json', JSON.stringify(users))
+
+			break
+		}
 	}
-	else {
-		console.log("there was not an id match.")
-	}
-		// identityVerification: '{"similarity":"MATCH","validity":true}',
 })
 
 app.get('/userResults', function (req, res) {
