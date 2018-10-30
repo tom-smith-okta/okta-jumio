@@ -40,7 +40,7 @@ app.listen(port, function () {
 
 app.get('/status', function (req, res) {
 
-	var return_val = {}
+	// var return_val = {}
 
 	var queryData = url.parse(req.url, true).query
 
@@ -64,27 +64,67 @@ app.get('/status', function (req, res) {
 
 	console.log("the users.json file is: " + rawdata)
 
-	for (var i=0; i < users.length; i++) {
-		if (users[i].transactionReference == transactionReference) {
-			if (users[i].status == "pending") {
-				return_val.status = "PENDING"
-			}
-			else {
-				return_val.status = users[i].status
-				return_val.data = users[i].data
-			}
+	// for (var i=0; i < users.length; i++) {
+	// 	if (users[i].transactionReference == transactionReference) {
+	// 		if (users[i].status == "pending") {
+	// 			return_val.status = "PENDING"
+	// 		}
+	// 		else {
+	// 			return_val.status = users[i].status
+	// 			return_val.data = users[i].data
+	// 		}
 
-			res.json(return_val)
+	// 		res.json(return_val)
 
-			break
+	// 		break
+	// 	}
+	// }
+
+	// console.log("could not find the user's transactionReference")
+
+	// return_val.status = "NO_USER"
+
+	// res.json(return_val)
+
+	// var i = 0
+
+	var get_status = new Promise(function(resolve, reject) {
+
+		var return_val = {}
+
+		for (var i=0; i < users.length; i++) {
+			if (users[i].transactionReference == transactionReference) {
+				if (users[i].status == "pending") {
+					return_val.status = "PENDING"
+				}
+				else {
+					return_val.status = users[i].status
+					return_val.data = users[i].data
+				}
+
+				resolve(return_val)
+				// res.json(return_val)
+
+				// break
+			}
 		}
-	}
 
-	console.log("could not find the user's transactionReference")
+		return_val.status = "NO_USER"
 
-	return_val.status = "NO_USER"
+		resolve(return_val)
+	});
 
-	res.json(return_val)
+	get_status.then(function(obj) {
+
+		res.json(return_val)
+
+		console.dir(obj);
+	  // expected output: "foo"
+	});
+
+	// console.log(promise2);
+	// expected output: [object Promise]
+
 
 
 	// console.log("making a request to the /scans endpoint...")
