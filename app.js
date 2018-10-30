@@ -292,7 +292,7 @@ app.get('/userResults', function (req, res) {
 
 	if (queryData.transactionStatus == "SUCCESS") {
 
-		req.session.transactionReference = queryData.transactionReference
+		// req.session.transactionReference = queryData.transactionReference
 
 		fs.readFile('html/register.html', (err, data) => {
 			if (err) {
@@ -311,6 +311,12 @@ app.post('/register', function (req, res) {
 	req.session.email = req.body.email
 
 	console.log("the /reg email is: " + req.body.email)
+
+	console.log("the transactionReference is: " + req.body.transactionReference)
+
+	res.send("the transactionReference is: " + req.body.transactionReference)
+
+	return
 
 	var options = {
 		method: 'POST',
@@ -360,7 +366,7 @@ app.post('/register', function (req, res) {
 
 		fs.writeFileSync('users.json', JSON.stringify(users));
 
-		res.redirect('/thank_you')
+		res.redirect('/thank_you?transactionReference=' + req.session.transactionReference)
 	})
 })
 
@@ -374,7 +380,7 @@ app.get('/thank_you', function (req, res) {
 		var page = data.toString()
 
 		page = page.replace(/{{email}}/g, req.session.email)
-		page = page.replace(/{{transactionReference}}/g, req.session.transactionReference)
+		// page = page.replace(/{{transactionReference}}/g, req.session.transactionReference)
 
 		res.send(page)
 	})
