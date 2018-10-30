@@ -292,12 +292,6 @@ app.post('/callback', function (req, res) {
 				resolve(users)
 			}
 		}
-
-		// console.log("could not find user.")
-
-		// return_val.status = "NO_USER"
-
-		// reject(return_val)
 	});
 
 	get_status.then(function(obj) {
