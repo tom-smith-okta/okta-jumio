@@ -116,7 +116,7 @@ app.get('/status', function (req, res) {
 
 	get_status.then(function(obj) {
 
-		res.json(return_val)
+		res.json(obj)
 
 		console.dir(obj);
 	  // expected output: "foo"
