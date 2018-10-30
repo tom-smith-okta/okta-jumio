@@ -58,7 +58,11 @@ app.get('/status', function (req, res) {
 
 	let rawdata = fs.readFileSync('users.json')
 
+	console.log("the users.json file is: " + rawdata)
+
 	let users = JSON.parse(rawdata)
+
+	console.log("the users.json file is: " + rawdata)
 
 	for (var i=0; i < users.length; i++) {
 		if (users[i].transactionReference == transactionReference) {
@@ -75,6 +79,13 @@ app.get('/status', function (req, res) {
 			break
 		}
 	}
+
+	console.log("could not find the user's transactionReference")
+
+	return_val.status = "NO_USER"
+
+	res.json(return_val)
+
 
 	// console.log("making a request to the /scans endpoint...")
 
