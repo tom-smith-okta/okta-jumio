@@ -366,34 +366,34 @@ app.post('/register', function (req, res) {
 	// 	json: true
 	// }
 
-	request(options, function (error, response, body) {
-		if (error) throw new Error(error)
+	// request(options, function (error, response, body) {
+	// 	if (error) throw new Error(error)
 
-		if (body.errorCode) {
-			res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0].errorSummary)
-			return
-		}
+	// 	if (body.errorCode) {
+	// 		res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0].errorSummary)
+	// 		return
+	// 	}
 
-		console.log(body)
+	// 	console.log(body)
 
-		console.log("the user id is: " + body.id)
+	// 	console.log("the user id is: " + body.id)
 
-		let rawdata = fs.readFileSync('users.json')
+	// 	let rawdata = fs.readFileSync('users.json')
 
-		let users = JSON.parse(rawdata)
+	// 	let users = JSON.parse(rawdata)
 
-		var new_user = {}
+	// 	var new_user = {}
 
-		new_user.transactionReference = req.session.transactionReference
+	// 	new_user.transactionReference = req.session.transactionReference
 
-		new_user.userID = body.id
+	// 	new_user.userID = body.id
 
-		users.push(new_user)
+	// 	users.push(new_user)
 
-		fs.writeFileSync('users.json', JSON.stringify(users));
+	// 	fs.writeFileSync('users.json', JSON.stringify(users));
 
-		res.redirect('/thank_you?transactionReference=' + req.session.transactionReference)
-	})
+	// 	res.redirect('/thank_you?transactionReference=' + req.session.transactionReference)
+	// })
 })
 
 app.get('/thank_you', function (req, res) {
