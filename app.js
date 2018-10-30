@@ -309,7 +309,7 @@ app.post('/register', function (req, res) {
 
 	var new_user = {}
 
-	new_user.transactionReference = req.session.transactionReference
+	new_user.transactionReference = req.body.transactionReference
 	new_user.fname = req.body.fname
 	new_user.lname = req.body.lname
 	new_user.email = req.body.email
