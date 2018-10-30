@@ -264,25 +264,83 @@ app.post('/callback', function (req, res) {
 
 	let users = JSON.parse(rawdata)
 
-	for (var i=0; i < users.length; i++) {
-		if (users[i].transactionReference == transactionReference) {
+	console.log("******* got the callback, looking for user...")
 
-			users[i].data = req.body
+	var get_status = new Promise(function(resolve, reject) {
 
-			if (id_status.similarity == "MATCH" && id_status.validity) {
-				console.log("there was an id match with the JSON parsing.")
-				users[i].status = "IDENTITY_VERIFIED"
+		var return_val = {}
+
+		for (var i=0; i < users.length; i++) {
+
+			console.log("comparing " + users[i].transactionReference + " to " + transactionReference)
+
+			if (users[i].transactionReference == transactionReference) {
+
+				console.log("there is a match.")
+
+				users[i].data = req.body
+
+				if (id_status.similarity == "MATCH" && id_status.validity) {
+					console.log("there was an id match with the JSON parsing.")
+					users[i].status = "IDENTITY_VERIFIED"
+				}
+				else {
+					console.log("Could not match ID with selfie.")
+					users[i].status = "IDENTITY_NOT_VERIFIED"
+				}
+
+				resolve(users)
+
+				// fs.writeFileSync('users.json', JSON.stringify(users))
+
+				// break
 			}
-			else {
-				console.log("Could not match ID with selfie.")
-				users[i].status = "IDENTITY_NOT_VERIFIED"
-			}
-
-			fs.writeFileSync('users.json', JSON.stringify(users))
-
-			break
 		}
-	}
+
+		// console.log("could not find user.")
+
+		// return_val.status = "NO_USER"
+
+		// reject(return_val)
+	});
+
+	get_status.then(function(obj) {
+
+		fs.writeFileSync('users.json', obj)
+
+		res.json(obj)
+
+		console.dir(obj);
+	  // expected output: "foo"
+	}).catch(function(obj) {
+		res.json(obj)
+
+		console.dir(obj);
+	});
+
+
+
+
+
+	// for (var i=0; i < users.length; i++) {
+	// 	if (users[i].transactionReference == transactionReference) {
+
+	// 		users[i].data = req.body
+
+	// 		if (id_status.similarity == "MATCH" && id_status.validity) {
+	// 			console.log("there was an id match with the JSON parsing.")
+	// 			users[i].status = "IDENTITY_VERIFIED"
+	// 		}
+	// 		else {
+	// 			console.log("Could not match ID with selfie.")
+	// 			users[i].status = "IDENTITY_NOT_VERIFIED"
+	// 		}
+
+	// 		fs.writeFileSync('users.json', JSON.stringify(users))
+
+	// 		break
+	// 	}
+	// }
 })
 
 app.get('/userResults', function (req, res) {
