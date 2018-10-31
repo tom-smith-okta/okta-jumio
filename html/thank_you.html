@@ -50,7 +50,13 @@
 								clearInterval(intervalObj)
 								console.log(response.data)
 							}
+							else if (response.status == "PENDING" && response.data) { // hack
 
+								$("#status").html('<p><button type="button" class="btn btn-success">Success!</button></p><p class="lead text-muted">You can now check your email - {{email}} - to activate your account.</p>')
+
+								clearInterval(intervalObj)
+								console.log(response.data)
+							}
 							else if (response.status != "PENDING") {
 								$("#status").html('<p><button type="button" class="btn btn-danger">Sorry</button></p><p class="lead text-muted">Something went wrong with your document scan. You can <a href="/">try again</a> if you wish.</p>')
 
