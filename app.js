@@ -194,11 +194,13 @@ app.post('/callback', function (req, res) {
 
 		fs.writeFile("users.json", JSON.stringify(obj), 'utf8', function (err) {
 			if (err) {
-			return console.log(err);
-		}
+				return console.log(err);
+			}
 
-		console.log("The file was saved!");
+			console.log("The file was saved!")
+		})
 	}).catch(function(obj) {
+
 		console.dir(obj)
 	})
 })
