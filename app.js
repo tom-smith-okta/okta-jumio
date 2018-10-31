@@ -58,7 +58,7 @@ app.get('/status', function (req, res) {
 
 	var get_status = new Promise(function(resolve, reject) {
 
-		let rawdata = fs.readFileSync('users.json')
+		// let rawdata = fs.readFileSync('users.json')
 
 		fs.readFile('users.json', function read(err, rawdata) {
 			if (err) {
@@ -93,7 +93,6 @@ app.get('/status', function (req, res) {
 	});
 
 	get_status.then(function(obj) {
-
 		res.json(obj)
 
 		console.dir(obj)
@@ -186,7 +185,6 @@ app.post('/callback', function (req, res) {
 					console.log("Could not match ID with selfie.")
 					users[i].status = "IDENTITY_NOT_VERIFIED"
 				}
-
 				resolve(users)
 			}
 		}
@@ -194,21 +192,15 @@ app.post('/callback', function (req, res) {
 
 	get_status.then(function(obj) {
 
-		// fs.writeFileSync('users.json', JSON.stringify(obj))
-
 		fs.writeFile("users.json", JSON.stringify(obj), 'utf8', function (err) {
 			if (err) {
 			return console.log(err);
 		}
 
 		console.log("The file was saved!");
-	})
-
-		console.dir(obj)
 	}).catch(function(obj) {
-
 		console.dir(obj)
-	});
+	})
 })
 
 app.get('/userResults', function (req, res) {
