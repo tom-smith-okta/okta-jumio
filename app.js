@@ -8,11 +8,11 @@ const bodyParser = require("body-parser")
 
 const express = require('express')
 
+var fs = require('fs')
+
+var request = require('request')
+
 var session = require('express-session')
-
-var fs = require('fs');
-
-var request = require('request');
 
 var url = require('url')
 
@@ -35,12 +35,7 @@ app.listen(port, function () {
 
 //////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////
-
 app.get('/status', function (req, res) {
-
-	// var return_val = {}
 
 	var queryData = url.parse(req.url, true).query
 
@@ -146,11 +141,11 @@ app.post('/callback', function (req, res) {
 
 					var options = {
 						method: 'POST',
-						url: 'https://okta-jumio.oktapreview.com/api/v1/users',
+						url: process.env.OKTA_TENANT + '/api/v1/users',
 						qs: { activate: 'true' },
 						headers: {
 							'Cache-Control': 'no-cache',
-							Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+							Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
 							'Content-Type': 'application/json',
 							Accept: 'application/json'
 						},
@@ -269,7 +264,7 @@ app.post('/go', function (req, res) {
 		url: 'https://netverify.com/api/v4/initiate',
 		headers: {
 			'Cache-Control': 'no-cache',
-			Authorization: 'Basic ZmRhYjg3Y2YtZjE0Ni00MGZjLTlkMDgtNjc1Yzc2NjhlNDg2OjYwdTRtQVNnZTJyOFYxYjVlS2VUR0pMaDUweXJkVnZj',
+			Authorization: 'Basic ' + process.env.JUMIO_AUTH_STRING,
 			'User-Agent': 'Okta',
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
@@ -277,9 +272,9 @@ app.post('/go', function (req, res) {
 		body: {
 			customerInternalReference: 'okta_transaction_12345',
 			userReference: 'user_1234',
-			successUrl: 'https://okta-jumio.herokuapp.com/userResults',
-			errorUrl: 'https://okta-jumio.herokuapp.com/error',
-			callbackUrl: 'https://okta-jumio.herokuapp.com/callback',
+			successUrl: process.env.MY_APP + '/userResults',
+			errorUrl: process.env.MY_APP + '/error',
+			callbackUrl: process.env.MY_APP + '/callback',
 			reportingCriteria: 'myReport1234',
 			workflowId: 200,
 			presets: [ { index: 1, country: 'USA', type: 'DRIVING_LICENSE' } ],
