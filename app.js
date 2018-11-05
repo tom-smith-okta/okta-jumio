@@ -12,8 +12,6 @@ var fs = require('fs')
 
 var request = require('request')
 
-// var session = require('express-session')
-
 var url = require('url')
 
 ///////////////////////////////////////////////////
@@ -26,8 +24,6 @@ var port = process.env.PORT
 app.use(express.static('public'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
-
-// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 
 app.listen(port, function () {
 	console.log('App listening on port ' + port + '...');
@@ -232,6 +228,8 @@ app.post('/register', function (req, res) {
 	console.log("the /reg email is: " + email)
 
 	console.log("the transactionReference is: " + req.body.transactionReference)
+
+	console.log("the okta api token is: " + process.env.OKTA_API_TOKEN)
 
 	var options = {
 		method: 'GET',
