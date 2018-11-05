@@ -245,16 +245,17 @@ app.post('/register', function (req, res) {
 	// 	}
 	// }
 
-console.log("subbing out email")
+console.log("subbing out okta token")
 
 
-var options = { method: 'GET',
+var options = {
+	method: 'GET',
   url: process.env.OKTA_TENANT + '/api/v1/users',
   qs: { filter: 'profile.email eq "' + email + '"' },
   headers: 
    { 'Postman-Token': 'a5dbb192-435f-4ee5-9342-4439e8703989',
      'cache-control': 'no-cache',
-     Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+     Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
      'Content-Type': 'application/json',
      Accept: 'application/json' } };
 
