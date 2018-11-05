@@ -12,7 +12,7 @@ var fs = require('fs')
 
 var request = require('request')
 
-var session = require('express-session')
+// var session = require('express-session')
 
 var url = require('url')
 
@@ -27,7 +27,7 @@ app.use(express.static('public'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 
 app.listen(port, function () {
 	console.log('App listening on port ' + port + '...');
@@ -225,11 +225,38 @@ app.get('/userResults', function (req, res) {
 
 app.post('/register', function (req, res) {
 
-	req.session.email = req.body.email
+	// req.session.email = req.body.email
 
-	console.log("the /reg email is: " + req.body.email)
+	email = req.body.email
+
+	console.log("the /reg email is: " + email)
 
 	console.log("the transactionReference is: " + req.body.transactionReference)
+
+	var options = {
+		method: 'GET',
+		url: process.env.OKTA_TENANT + '/api/v1/users',
+		qs: {
+			filter: 'profile.email%20eq%20%22' + email + '%22',
+			headers: {
+				'cache-control': 'no-cache',
+				Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
+		}
+	}
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error)
+
+		if (body.id) {
+			res.send("sorry, a user with the id of " + email + " already exists in this organization.")
+			return
+		}
+
+		console.log(body)
+	})
 
 	let rawdata = fs.readFileSync('users.json')
 
@@ -254,7 +281,7 @@ app.post('/register', function (req, res) {
 
 		var page = data.toString()
 
-		page = page.replace(/{{email}}/g, req.session.email)
+		page = page.replace(/{{email}}/g, req.body.email)
 
 		res.send(page)
 	})
