@@ -166,7 +166,7 @@ app.post('/callback', function (req, res) {
 
 						if (body.errorCode) {
 							users[i].status = "REGISTRATION_ERROR"
-							users[i].status .= body.errorCauses[0].errorSummary
+							users[i].status += body.errorCauses[0].errorSummary
 
 							// res.send("sorry, an error occurred with Okta registration: " + body.errorCauses[0].errorSummary)
 							// return
