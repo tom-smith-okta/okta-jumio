@@ -221,31 +221,11 @@ app.get('/userResults', function (req, res) {
 
 app.post('/register', function (req, res) {
 
-	// req.session.email = req.body.email
-
 	email = req.body.email
 
 	console.log("the /reg email is: " + email)
 
 	console.log("the transactionReference is: " + req.body.transactionReference)
-
-	console.log("the okta api token is: " + process.env.OKTA_API_TOKEN)
-
-	// var options = {
-	// 	method: 'GET',
-	// 	url: process.env.OKTA_TENANT + '/api/v1/users',
-	// 	qs: {
-	// 		filter: 'profile.email%20eq%20%22' + email + '%22',
-	// 		headers: {
-	// 			'cache-control': 'no-cache',
-	// 			Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
-	// 			'Content-Type': 'application/json',
-	// 			Accept: 'application/json'
-	// 		}
-	// 	}
-	// }
-
-console.log("subbing out okta token")
 
 	var options = {
 		method: 'GET',
@@ -258,7 +238,6 @@ console.log("subbing out okta token")
 			Accept: 'application/json'
 		}
 	}
-
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error)
@@ -274,35 +253,35 @@ console.log("subbing out okta token")
 			return
 		}
 
-		console.log(body)
-	})
+		else {
+			let rawdata = fs.readFileSync('users.json')
 
-	let rawdata = fs.readFileSync('users.json')
+			let users = JSON.parse(rawdata)
 
-	let users = JSON.parse(rawdata)
+			var new_user = {}
 
-	var new_user = {}
+			new_user.transactionReference = req.body.transactionReference
+			new_user.fname = req.body.fname
+			new_user.lname = req.body.lname
+			new_user.email = req.body.email
+			new_user.status = "pending"
 
-	new_user.transactionReference = req.body.transactionReference
-	new_user.fname = req.body.fname
-	new_user.lname = req.body.lname
-	new_user.email = req.body.email
-	new_user.status = "pending"
+			users.push(new_user)
 
-	users.push(new_user)
+			fs.writeFileSync('users.json', JSON.stringify(users))
 
-	fs.writeFileSync('users.json', JSON.stringify(users))
+			fs.readFile('html/thank_you.html', (err, data) => {
+				if (err) {
+					console.log("error reading the thank_you.html file")
+				}
 
-	fs.readFile('html/thank_you.html', (err, data) => {
-		if (err) {
-			console.log("error reading the thank_you.html file")
+				var page = data.toString()
+
+				page = page.replace(/{{email}}/g, req.body.email)
+
+				res.send(page)
+			})
 		}
-
-		var page = data.toString()
-
-		page = page.replace(/{{email}}/g, req.body.email)
-
-		res.send(page)
 	})
 })
 
