@@ -250,6 +250,8 @@ app.post('/register', function (req, res) {
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error)
 
+		console.log("the response for checking on the existing user is: " + body)
+
 		if (body.id) {
 			res.send("sorry, a user with the id of " + email + " already exists in this organization.")
 			return
