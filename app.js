@@ -21,7 +21,7 @@ var url = require('url')
 // SET UP WEB SERVER
 const app = express();
 
-var port = process.env.PORT || 5459;
+var port = process.env.PORT
 
 app.use(express.static('public'))
 
@@ -57,8 +57,6 @@ app.get('/status', function (req, res) {
 	var transactionReference = queryData.transactionReference
 
 	var get_status = new Promise(function(resolve, reject) {
-
-		// let rawdata = fs.readFileSync('users.json')
 
 		fs.readFile('users.json', function read(err, rawdata) {
 			if (err) {
