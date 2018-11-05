@@ -231,19 +231,30 @@ app.post('/register', function (req, res) {
 
 	console.log("the okta api token is: " + process.env.OKTA_API_TOKEN)
 
-	var options = {
-		method: 'GET',
-		url: process.env.OKTA_TENANT + '/api/v1/users',
-		qs: {
-			filter: 'profile.email%20eq%20%22' + email + '%22',
-			headers: {
-				'cache-control': 'no-cache',
-				Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			}
-		}
-	}
+	// var options = {
+	// 	method: 'GET',
+	// 	url: process.env.OKTA_TENANT + '/api/v1/users',
+	// 	qs: {
+	// 		filter: 'profile.email%20eq%20%22' + email + '%22',
+	// 		headers: {
+	// 			'cache-control': 'no-cache',
+	// 			Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
+	// 			'Content-Type': 'application/json',
+	// 			Accept: 'application/json'
+	// 		}
+	// 	}
+	// }
+
+var options = { method: 'GET',
+  url: 'https://okta-jumio.oktapreview.com/api/v1/users',
+  qs: { filter: 'profile.email%20eq%20%22aaron.rodgers@mailinator.com%22' },
+  headers: 
+   { 'Postman-Token': 'a5dbb192-435f-4ee5-9342-4439e8703989',
+     'cache-control': 'no-cache',
+     Authorization: 'SSWS 00yigkWqw6xJo1IakrJt2CrvYEWbz6gMw1hq4zZJhp',
+     'Content-Type': 'application/json',
+     Accept: 'application/json' } };
+
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error)
