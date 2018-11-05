@@ -245,9 +245,12 @@ app.post('/register', function (req, res) {
 	// 	}
 	// }
 
+console.log("subbing out email")
+
+
 var options = { method: 'GET',
   url: process.env.OKTA_TENANT + '/api/v1/users',
-  qs: { filter: 'profile.email eq "aaron.rodgers@mailinator.com"' },
+  qs: { filter: 'profile.email eq "' + email + '"' },
   headers: 
    { 'Postman-Token': 'a5dbb192-435f-4ee5-9342-4439e8703989',
      'cache-control': 'no-cache',
