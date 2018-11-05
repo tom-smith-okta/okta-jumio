@@ -247,7 +247,7 @@ app.post('/register', function (req, res) {
 
 var options = { method: 'GET',
   url: 'https://okta-jumio.oktapreview.com/api/v1/users',
-  qs: { filter: 'profile.email%20eq%20%22aaron.rodgers@mailinator.com%22' },
+  qs: { filter: 'profile.email eq "aaron.rodgers@mailinator.com"' },
   headers: 
    { 'Postman-Token': 'a5dbb192-435f-4ee5-9342-4439e8703989',
      'cache-control': 'no-cache',
