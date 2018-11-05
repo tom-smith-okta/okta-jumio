@@ -247,17 +247,17 @@ app.post('/register', function (req, res) {
 
 console.log("subbing out okta token")
 
-
-var options = {
-	method: 'GET',
-  url: process.env.OKTA_TENANT + '/api/v1/users',
-  qs: { filter: 'profile.email eq "' + email + '"' },
-  headers: 
-   { 'Postman-Token': 'a5dbb192-435f-4ee5-9342-4439e8703989',
-     'cache-control': 'no-cache',
-     Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
-     'Content-Type': 'application/json',
-     Accept: 'application/json' } };
+	var options = {
+		method: 'GET',
+		url: process.env.OKTA_TENANT + '/api/v1/users',
+		qs: { filter: 'profile.email eq "' + email + '"' },
+		headers: {
+			'cache-control': 'no-cache',
+			Authorization: 'SSWS ' + process.env.OKTA_API_TOKEN,
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		}
+	}
 
 
 	request(options, function (error, response, body) {
@@ -265,7 +265,11 @@ var options = {
 
 		console.log("the response for checking on the existing user is: " + body)
 
-		if (body.id) {
+		var obj = JSON.parse(body)
+
+		console.log("the length of the array is: " + obj.length)
+
+		if (obj.length > 0) {
 			res.send("sorry, a user with the id of " + email + " already exists in this organization.")
 			return
 		}
